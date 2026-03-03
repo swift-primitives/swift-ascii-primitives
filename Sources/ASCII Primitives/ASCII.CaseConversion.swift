@@ -122,7 +122,7 @@ extension ASCII {
     /// ASCII.convert(slice, to: .lower)
     /// ```
     @inlinable
-    public static func convert<C: Collection>(
+    public static func convert<C: Swift.Collection>(
         _ bytes: C,
         to case: ASCII.Case
     ) -> [UInt8] where C.Element == UInt8 {

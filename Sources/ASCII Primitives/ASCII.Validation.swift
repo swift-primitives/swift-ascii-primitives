@@ -51,7 +51,7 @@ extension ASCII.Validation {
     /// ASCII.Validation.isAllASCII(slice)
     /// ```
     @inlinable
-    public static func isAllASCII<C: Collection>(
+    public static func isAllASCII<C: Swift.Collection>(
         _ bytes: C
     ) -> Bool where C.Element == UInt8 {
         // Fast path: SIMD-accelerated for any contiguous storage
@@ -111,7 +111,7 @@ extension ASCII {
     ///
     /// Convenience accessor for ``Validation/isAllASCII(_:)``.
     @inlinable
-    public static func isAllASCII<C: Collection>(
+    public static func isAllASCII<C: Swift.Collection>(
         _ bytes: C
     ) -> Bool where C.Element == UInt8 {
         Validation.isAllASCII(bytes)
