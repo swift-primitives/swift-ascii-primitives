@@ -51,14 +51,14 @@ extension ASCII {
     ///
     /// // Use in word separation
     /// let bytes: [UInt8] = [
-    ///     ASCII.Graphic.H,
-    ///     ASCII.Graphic.i,
+    ///     ASCII.Character.Graphic.H,
+    ///     ASCII.Character.Graphic.i,
     ///     ASCII.SPACE.sp,
-    ///     ASCII.Graphic.t,
-    ///     ASCII.Graphic.h,
-    ///     ASCII.Graphic.e,
-    ///     ASCII.Graphic.r,
-    ///     ASCII.Graphic.e
+    ///     ASCII.Character.Graphic.t,
+    ///     ASCII.Character.Graphic.h,
+    ///     ASCII.Character.Graphic.e,
+    ///     ASCII.Character.Graphic.r,
+    ///     ASCII.Character.Graphic.e
     /// ]
     ///
     /// // Check for whitespace (includes SPACE)
@@ -101,14 +101,14 @@ extension ASCII.SPACE {
     ///
     /// // Word separation in byte arrays
     /// let greeting: [UInt8] = [
-    ///     ASCII.Graphic.H,
-    ///     ASCII.Graphic.i,
+    ///     ASCII.Character.Graphic.H,
+    ///     ASCII.Character.Graphic.i,
     ///     ASCII.SPACE.sp,  // Word separator
-    ///     ASCII.Graphic.t,
-    ///     ASCII.Graphic.h,
-    ///     ASCII.Graphic.e,
-    ///     ASCII.Graphic.r,
-    ///     ASCII.Graphic.e
+    ///     ASCII.Character.Graphic.t,
+    ///     ASCII.Character.Graphic.h,
+    ///     ASCII.Character.Graphic.e,
+    ///     ASCII.Character.Graphic.r,
+    ///     ASCII.Character.Graphic.e
     /// ]
     ///
     /// // Part of whitespace set

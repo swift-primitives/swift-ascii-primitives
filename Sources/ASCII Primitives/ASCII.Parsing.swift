@@ -52,7 +52,7 @@ extension ASCII.Parsing {
     @inlinable
     public static func digit(_ byte: UInt8) -> UInt8? {
         guard ASCII.Classification.isDigit(byte) else { return nil }
-        return byte - ASCII.Graphic.`0`
+        return byte - ASCII.Character.Graphic.`0`
     }
 
     // MARK: - Hexadecimal Digit Parsing
@@ -91,12 +91,12 @@ extension ASCII.Parsing {
     @inlinable
     public static func hexDigit(_ byte: UInt8) -> UInt8? {
         switch byte {
-        case ASCII.Graphic.`0`...ASCII.Graphic.`9`:
-            return byte - ASCII.Graphic.`0`
-        case ASCII.Graphic.A...ASCII.Graphic.F:
-            return byte - ASCII.Graphic.A + 10
-        case ASCII.Graphic.a...ASCII.Graphic.f:
-            return byte - ASCII.Graphic.a + 10
+        case ASCII.Character.Graphic.`0`...ASCII.Character.Graphic.`9`:
+            return byte - ASCII.Character.Graphic.`0`
+        case ASCII.Character.Graphic.A...ASCII.Character.Graphic.F:
+            return byte - ASCII.Character.Graphic.A + 10
+        case ASCII.Character.Graphic.a...ASCII.Character.Graphic.f:
+            return byte - ASCII.Character.Graphic.a + 10
         default:
             return nil
         }

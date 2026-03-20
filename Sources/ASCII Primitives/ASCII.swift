@@ -25,34 +25,39 @@
 /// ## Nested Namespaces
 ///
 /// The standard's structure is reflected in nested type namespaces:
-/// - ``Control``: All 33 control characters (NUL, SOH, STX, ..., DEL)
-/// - ``Graphic``: 94 printable characters (letters, digits, punctuation)
+/// - ``Character/Control``: All 33 control characters (NUL, SOH, STX, ..., DEL)
+/// - ``Character/Graphic``: 94 printable characters (letters, digits, punctuation)
 /// - ``SPACE``: The space character (0x20) with its dual nature
 ///
 /// ## Usage
 ///
 /// ```swift
 /// // Access control characters
-/// let lineFeed = ASCII.Control.lf
-/// let carriageReturn = ASCII.Control.cr
+/// let lineFeed = ASCII.Character.Control.lf
+/// let carriageReturn = ASCII.Character.Control.cr
 ///
 /// // Access graphic characters
-/// let letterA = ASCII.Graphic.A
-/// let digit0 = ASCII.Graphic.zero
+/// let letterA = ASCII.Character.Graphic.A
+/// let digit0 = ASCII.Character.Graphic.zero
 ///
 /// // Use common constants
 /// let whitespace = ASCII.whitespaces
-/// let lineEnding = ASCII.Control.crlf
+/// let lineEnding = ASCII.Character.Control.crlf
 /// ```
 ///
 /// ## See Also
 ///
-/// - ``Control``
-/// - ``Graphic``
+/// - ``Character/Control``
+/// - ``Character/Graphic``
 /// - ``SPACE``
 /// - ``whitespaces``
 /// - ``Case.Conversion/offset``
 public enum ASCII {}
+
+extension ASCII {
+    /// Namespace for ASCII character classifications.
+    public enum Character {}
+}
 
 extension ASCII {
     /// ASCII Letter Case
@@ -101,8 +106,8 @@ extension ASCII {
     /// - ``Control/cr``
     public static let whitespaces: Set<UInt8> = [
         SPACE.sp,
-        Control.htab,
-        Control.lf,
-        Control.cr,
+        Character.Control.htab,
+        Character.Control.lf,
+        Character.Control.cr,
     ]
 }

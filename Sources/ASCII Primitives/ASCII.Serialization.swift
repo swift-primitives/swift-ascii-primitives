@@ -44,7 +44,7 @@ extension ASCII.Serialization {
     @inlinable
     public static func digit(_ value: UInt8) -> UInt8? {
         guard value <= 9 else { return nil }
-        return ASCII.Graphic.`0` + value
+        return ASCII.Character.Graphic.`0` + value
     }
 
     /// Converts a hex digit value (0-15) to its uppercase ASCII byte
@@ -55,9 +55,9 @@ extension ASCII.Serialization {
     public static func hexDigitUppercase(_ value: UInt8) -> UInt8? {
         switch value {
         case 0...9:
-            return ASCII.Graphic.`0` + value
+            return ASCII.Character.Graphic.`0` + value
         case 10...15:
-            return ASCII.Graphic.A + value - 10
+            return ASCII.Character.Graphic.A + value - 10
         default:
             return nil
         }
@@ -71,9 +71,9 @@ extension ASCII.Serialization {
     public static func hexDigitLowercase(_ value: UInt8) -> UInt8? {
         switch value {
         case 0...9:
-            return ASCII.Graphic.`0` + value
+            return ASCII.Character.Graphic.`0` + value
         case 10...15:
-            return ASCII.Graphic.a + value - 10
+            return ASCII.Character.Graphic.a + value - 10
         default:
             return nil
         }
@@ -105,7 +105,7 @@ extension ASCII.Serialization {
         into buffer: inout Buffer
     ) where Buffer.Element == UInt8 {
         if value == 0 {
-            buffer.append(ASCII.Graphic.`0`)
+            buffer.append(ASCII.Character.Graphic.`0`)
             return
         }
 
@@ -123,7 +123,7 @@ extension ASCII.Serialization {
         withUnsafeMutableBytes(of: &digits) { ptr in
             let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             while n > 0 {
-                base[count] = ASCII.Graphic.`0` + UInt8(n % 10)
+                base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10)
                 n /= 10
                 count += 1
             }
@@ -160,13 +160,13 @@ extension ASCII.Serialization {
         into buffer: inout Buffer
     ) where Buffer.Element == UInt8 {
         if value == 0 {
-            buffer.append(ASCII.Graphic.`0`)
+            buffer.append(ASCII.Character.Graphic.`0`)
             return
         }
 
         var n = value
         if n < 0 {
-            buffer.append(ASCII.Graphic.hyphen)
+            buffer.append(ASCII.Character.Graphic.hyphen)
             n = -n
         }
 
@@ -183,7 +183,7 @@ extension ASCII.Serialization {
         withUnsafeMutableBytes(of: &digits) { ptr in
             let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             while n > 0 {
-                base[count] = ASCII.Graphic.`0` + UInt8(n % 10)
+                base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10)
                 n /= 10
                 count += 1
             }
