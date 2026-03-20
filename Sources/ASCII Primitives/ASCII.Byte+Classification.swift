@@ -80,12 +80,12 @@ extension ASCII.Byte {
     /// Returns the lowercase form of this byte (identity if not uppercase letter).
     @_transparent
     public func lowercased() -> UInt8 {
-        ASCII.CaseConversion.convert(rawValue, to: .lower)
+        ASCII.Case.Conversion.convert(rawValue, to: .lower)
     }
 
     /// Returns the uppercase form of this byte (identity if not lowercase letter).
     @_transparent
     public func uppercased() -> UInt8 {
-        ASCII.CaseConversion.convert(rawValue, to: .upper)
+        ASCII.Case.Conversion.convert(rawValue, to: .upper)
     }
 }

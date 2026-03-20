@@ -70,7 +70,7 @@ extension ASCII {
     ///
     /// ## See Also
     ///
-    /// - ``ASCII/CaseConversion/offset``
+    /// - ``ASCII/Case.Conversion/offset``
     /// - ``SPACE``
     public enum Graphic {}
 }

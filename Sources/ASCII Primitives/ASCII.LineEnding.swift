@@ -4,6 +4,11 @@
 // ASCII line ending enumeration based on INCITS 4-1986 control characters
 
 extension ASCII {
+    /// Namespace for line-related types.
+    public enum Line {}
+}
+
+extension ASCII.Line {
     /// Line ending style for ASCII text normalization
     ///
     /// Values derive from INCITS 4-1986 ASCII character definitions:
@@ -11,7 +16,7 @@ extension ASCII {
     /// - LF: LINE FEED (0x0A)
     ///
     /// All byte values flow from ``Control/cr`` and ``Control/lf`` constants.
-    public enum LineEnding: Sendable {
+    public enum Ending: Sendable {
         /// Unix style: LINE FEED (0x0A)
         case lf
         /// Old Mac style: CARRIAGE RETURN (0x0D)

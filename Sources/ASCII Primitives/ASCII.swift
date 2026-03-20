@@ -51,7 +51,7 @@
 /// - ``Graphic``
 /// - ``SPACE``
 /// - ``whitespaces``
-/// - ``CaseConversion/offset``
+/// - ``Case.Conversion/offset``
 public enum ASCII {}
 
 extension ASCII {

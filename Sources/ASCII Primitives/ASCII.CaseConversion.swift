@@ -1,10 +1,10 @@
-// ASCII.CaseConversion.swift
+// ASCII.Case.Conversion.swift
 // swift-ascii-primitives
 //
 // INCITS 4-1986 Section 4.3: Graphic Characters - Case Conversion
 // Transforms ASCII letters between uppercase and lowercase
 
-extension ASCII {
+extension ASCII.Case {
     /// Case Conversion Operations
     ///
     /// Authoritative implementations for converting ASCII letters between uppercase and lowercase.
@@ -13,10 +13,10 @@ extension ASCII {
     /// - Capital letters: A-Z (0x41-0x5A)
     /// - Small letters: a-z (0x61-0x7A)
     /// - Difference between cases: 32 (0x20)
-    public enum CaseConversion {}
+    public enum Conversion {}
 }
 
-extension ASCII.CaseConversion {
+extension ASCII.Case.Conversion {
     /// ASCII case conversion offset
     ///
     /// The numeric distance between corresponding uppercase and lowercase ASCII letters.
@@ -35,10 +35,10 @@ extension ASCII.CaseConversion {
     ///
     /// ```swift
     /// let upperA: UInt8 = 0x41  // 'A'
-    /// let lowerA = upperA + ASCII.CaseConversion.offset  // 0x61 ('a')
+    /// let lowerA = upperA + ASCII.Case.Conversion.offset  // 0x61 ('a')
     ///
     /// let lowerZ: UInt8 = 0x7A  // 'z'
-    /// let upperZ = lowerZ - ASCII.CaseConversion.offset  // 0x5A ('Z')
+    /// let upperZ = lowerZ - ASCII.Case.Conversion.offset  // 0x5A ('Z')
     /// ```
     ///
     /// ## See Also
@@ -48,7 +48,7 @@ extension ASCII.CaseConversion {
     public static let offset: UInt8 = 0x20
 }
 
-extension ASCII.CaseConversion {
+extension ASCII.Case.Conversion {
     /// Converts ASCII letter to specified case, returns unchanged if not an ASCII letter
     ///
     /// Per INCITS 4-1986 Table 7 (Graphic Characters), uppercase and lowercase ASCII letters
@@ -69,9 +69,9 @@ extension ASCII.CaseConversion {
     /// ## Usage
     ///
     /// ```swift
-    /// ASCII.CaseConversion.convert(0x61, to: .upper)  // 0x41 ("A")
-    /// ASCII.CaseConversion.convert(0x5A, to: .lower)  // 0x7A ("z")
-    /// ASCII.CaseConversion.convert(0x31, to: .upper)  // 0x31 ("1") - unchanged
+    /// ASCII.Case.Conversion.convert(0x61, to: .upper)  // 0x41 ("A")
+    /// ASCII.Case.Conversion.convert(0x5A, to: .lower)  // 0x7A ("z")
+    /// ASCII.Case.Conversion.convert(0x31, to: .upper)  // 0x31 ("1") - unchanged
     /// ```
     ///
     /// - Parameters:
