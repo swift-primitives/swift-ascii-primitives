@@ -1,4 +1,4 @@
-// ASCII.GraphicCharacters.swift
+// ASCII.Graphic.swift
 // swift-ascii-primitives
 //
 // Section 4.3: Graphic Characters (INCITS 4-1986)
@@ -53,9 +53,9 @@ extension ASCII {
     ///
     /// ```swift
     /// // Access individual characters
-    /// let letterA = ASCII.GraphicCharacters.A      // 0x41
-    /// let digit0 = ASCII.GraphicCharacters.`0`     // 0x30
-    /// let exclaim = ASCII.GraphicCharacters.exclamationPoint  // 0x21
+    /// let letterA = ASCII.Graphic.A      // 0x41
+    /// let digit0 = ASCII.Graphic.`0`     // 0x30
+    /// let exclaim = ASCII.Graphic.exclamationPoint  // 0x21
     ///
     /// // Check if byte is a graphic character
     /// let byte: UInt8 = 0x41
@@ -63,8 +63,8 @@ extension ASCII {
     ///
     /// // Use in byte operations
     /// let bytes: [UInt8] = [
-    ///     ASCII.GraphicCharacters.H,
-    ///     ASCII.GraphicCharacters.i
+    ///     ASCII.Graphic.H,
+    ///     ASCII.Graphic.i
     /// ]
     /// ```
     ///
@@ -72,10 +72,10 @@ extension ASCII {
     ///
     /// - ``ASCII/CaseConversion/offset``
     /// - ``SPACE``
-    public enum GraphicCharacters {}
+    public enum Graphic {}
 }
 
-extension ASCII.GraphicCharacters {
+extension ASCII.Graphic {
     /// EXCLAMATION POINT (0x21) - !
     public static let exclamationPoint: UInt8 = 0x21
 
@@ -123,7 +123,7 @@ extension ASCII.GraphicCharacters {
     public static let solidus: UInt8 = slant
 }
 
-extension ASCII.GraphicCharacters {
+extension ASCII.Graphic {
     /// DIGIT ZERO (0x30) - 0
     public static let `0`: UInt8 = 0x30
 
@@ -155,7 +155,7 @@ extension ASCII.GraphicCharacters {
     public static let `9`: UInt8 = 0x39
 }
 
-extension ASCII.GraphicCharacters {
+extension ASCII.Graphic {
     /// COLON (0x3A) - :
     public static let colon: UInt8 = 0x3A
 
@@ -178,7 +178,7 @@ extension ASCII.GraphicCharacters {
     public static let commercialAt: UInt8 = 0x40
 }
 
-extension ASCII.GraphicCharacters {
+extension ASCII.Graphic {
     /// CAPITAL LETTER A (0x41)
     public static let A: UInt8 = 0x41
 
@@ -258,7 +258,7 @@ extension ASCII.GraphicCharacters {
     public static let Z: UInt8 = 0x5A
 }
 
-extension ASCII.GraphicCharacters {
+extension ASCII.Graphic {
     /// LEFT BRACKET (0x5B) - [
     public static let leftBracket: UInt8 = 0x5B
 
@@ -279,7 +279,7 @@ extension ASCII.GraphicCharacters {
     public static let leftSingleQuotationMark: UInt8 = 0x60
 }
 
-extension ASCII.GraphicCharacters {
+extension ASCII.Graphic {
     /// SMALL LETTER A (0x61)
     public static let a: UInt8 = 0x61
 
@@ -359,7 +359,7 @@ extension ASCII.GraphicCharacters {
     public static let z: UInt8 = 0x7A
 }
 
-extension ASCII.GraphicCharacters {
+extension ASCII.Graphic {
     /// LEFT BRACE (0x7B) - {
     public static let leftBrace: UInt8 = 0x7B
 

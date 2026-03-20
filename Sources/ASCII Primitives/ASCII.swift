@@ -25,30 +25,30 @@
 /// ## Nested Namespaces
 ///
 /// The standard's structure is reflected in nested type namespaces:
-/// - ``ControlCharacters``: All 33 control characters (NUL, SOH, STX, ..., DEL)
-/// - ``GraphicCharacters``: 94 printable characters (letters, digits, punctuation)
+/// - ``Control``: All 33 control characters (NUL, SOH, STX, ..., DEL)
+/// - ``Graphic``: 94 printable characters (letters, digits, punctuation)
 /// - ``SPACE``: The space character (0x20) with its dual nature
 ///
 /// ## Usage
 ///
 /// ```swift
 /// // Access control characters
-/// let lineFeed = ASCII.ControlCharacters.lf
-/// let carriageReturn = ASCII.ControlCharacters.cr
+/// let lineFeed = ASCII.Control.lf
+/// let carriageReturn = ASCII.Control.cr
 ///
 /// // Access graphic characters
-/// let letterA = ASCII.GraphicCharacters.A
-/// let digit0 = ASCII.GraphicCharacters.zero
+/// let letterA = ASCII.Graphic.A
+/// let digit0 = ASCII.Graphic.zero
 ///
 /// // Use common constants
 /// let whitespace = ASCII.whitespaces
-/// let lineEnding = ASCII.ControlCharacters.crlf
+/// let lineEnding = ASCII.Control.crlf
 /// ```
 ///
 /// ## See Also
 ///
-/// - ``ControlCharacters``
-/// - ``GraphicCharacters``
+/// - ``Control``
+/// - ``Graphic``
 /// - ``SPACE``
 /// - ``whitespaces``
 /// - ``CaseConversion/offset``
@@ -96,13 +96,13 @@ extension ASCII {
     /// ## See Also
     ///
     /// - ``SPACE``
-    /// - ``ControlCharacters/htab``
-    /// - ``ControlCharacters/lf``
-    /// - ``ControlCharacters/cr``
+    /// - ``Control/htab``
+    /// - ``Control/lf``
+    /// - ``Control/cr``
     public static let whitespaces: Set<UInt8> = [
         SPACE.sp,
-        ControlCharacters.htab,
-        ControlCharacters.lf,
-        ControlCharacters.cr,
+        Control.htab,
+        Control.lf,
+        Control.cr,
     ]
 }

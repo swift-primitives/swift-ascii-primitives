@@ -43,8 +43,8 @@ extension ASCII.CaseConversion {
     ///
     /// ## See Also
     ///
-    /// - ``GraphicCharacters/A``
-    /// - ``GraphicCharacters/a``
+    /// - ``Graphic/A``
+    /// - ``Graphic/a``
     public static let offset: UInt8 = 0x20
 }
 

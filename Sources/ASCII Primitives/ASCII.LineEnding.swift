@@ -10,7 +10,7 @@ extension ASCII {
     /// - CR: CARRIAGE RETURN (0x0D)
     /// - LF: LINE FEED (0x0A)
     ///
-    /// All byte values flow from ``ControlCharacters/cr`` and ``ControlCharacters/lf`` constants.
+    /// All byte values flow from ``Control/cr`` and ``Control/lf`` constants.
     public enum LineEnding: Sendable {
         /// Unix style: LINE FEED (0x0A)
         case lf
