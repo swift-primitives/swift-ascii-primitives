@@ -1,4 +1,4 @@
-// ASCII.LineEnding.swift
+// ASCII.Line.Ending.swift
 // swift-ascii-primitives
 //
 // ASCII line ending enumeration based on INCITS 4-1986 control characters
