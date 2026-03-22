@@ -55,7 +55,7 @@ extension ASCII.Validation {
         _ bytes: C
     ) -> Bool where C.Element == UInt8 {
         // Fast path: SIMD-accelerated for any contiguous storage
-        if let result = bytes.withContiguousStorageIfAvailable({ _isAllASCIIFast($0) }) {
+        if let result = bytes.withContiguousStorageIfAvailable({ unsafe _isAllASCIIFast($0) }) {
             return result
         }
         // Generic path: delegate to authoritative predicate
@@ -77,7 +77,7 @@ extension ASCII.Validation {
         // Check if any of the 8 bytes has the high bit set
         let highBitMask: UInt64 = 0x8080_8080_8080_8080
         while i + 8 <= count {
-            let chunk = base.advanced(by: i).withMemoryRebound(to: UInt64.self, capacity: 1) { $0.pointee }
+            let chunk = unsafe base.advanced(by: i).withMemoryRebound(to: UInt64.self, capacity: 1) { unsafe $0.pointee }
             if chunk & highBitMask != 0 {
                 return false
             }
@@ -86,7 +86,7 @@ extension ASCII.Validation {
 
         // Handle remaining bytes (0-7)
         while i < count {
-            if base[i] > 0x7F {
+            if unsafe base[i] > 0x7F {
                 return false
             }
             i += 1

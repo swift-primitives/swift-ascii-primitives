@@ -120,20 +120,20 @@ extension ASCII.Serialization {
         ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         var count = 0
 
-        withUnsafeMutableBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeMutableBytes(of: &digits) { ptr in
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             while n > 0 {
-                base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10)
+                unsafe (base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
                 n /= 10
                 count += 1
             }
         }
 
         // Append in correct order (reverse of how we built them)
-        withUnsafeBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeBytes(of: &digits) { ptr in
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             for i in stride(from: count - 1, through: 0, by: -1) {
-                buffer.append(base[i])
+                unsafe buffer.append(base[i])
             }
         }
     }
@@ -180,20 +180,20 @@ extension ASCII.Serialization {
         ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         var count = 0
 
-        withUnsafeMutableBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeMutableBytes(of: &digits) { ptr in
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             while n > 0 {
-                base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10)
+                unsafe (base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
                 n /= 10
                 count += 1
             }
         }
 
         // Append in correct order (reverse of how we built them)
-        withUnsafeBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeBytes(of: &digits) { ptr in
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             for i in stride(from: count - 1, through: 0, by: -1) {
-                buffer.append(base[i])
+                unsafe buffer.append(base[i])
             }
         }
     }
