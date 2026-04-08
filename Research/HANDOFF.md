@@ -1,5 +1,10 @@
 # Handoff: Category B ASCII Migration (L2 Standards → L1 Primitives)
 
+> **SUPERSEDED** (2026-04-08) — consolidated into
+> [`ascii-migration-category-b.md`](ascii-migration-category-b.md) in this directory.
+> That plan absorbs this handoff's scope, dead ends, package inventory, and open
+> questions. Original content retained below for history.
+
 > To resume: read this file, then consolidate the scattered source documents
 > listed below into a single coherent plan at
 > `swift-primitives/swift-ascii-primitives/Research/ascii-migration-category-b.md`
