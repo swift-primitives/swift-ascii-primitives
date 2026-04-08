@@ -2,9 +2,9 @@
 
 <!--
 ---
-version: 1.0.0
+version: 2.0.0
 last_updated: 2026-04-08
-status: PLAN (blocked on Open Question 1)
+status: PLAN (OQ1 resolved — ready for implementation)
 scope: 22 L2 standards packages → drop swift-ascii (L3) dependency
 supersedes:
   - swift-primitives/swift-ascii-primitives/Research/HANDOFF.md (this file's predecessor)
@@ -28,8 +28,8 @@ consumable SwiftPM package. The release-readiness rule is:
 `Binary.ASCII.Serializable` and/or 5 additional L3 ASCII features. This plan
 takes them to L1-only.
 
-**This plan is BLOCKED on user resolution of [Open Question 1](#open-questions).
-No package code changes until it is resolved.**
+**Open Question 1 is RESOLVED (B + α).** Ready for implementation — see
+[Execution Plan](#strategy-c-execution-plan).
 
 ---
 
@@ -252,38 +252,78 @@ ASCII.Decimal<Input, T>                  // domain struct IS the parser
 
 **This plan executes only AFTER [Open Question 1](#open-questions) is resolved by the user.** Steps 1–4 are sequenced by architectural dependency, not by difficulty.
 
-### Step 0 — Verify current state (no code changes)
+### Step 0 — Verify current state (no code changes) — DONE
 
-- [ ] Grep each of the 22 packages for `import ASCII`, `\.ascii\.`, `Binary\.ASCII\.` against current HEAD; update the Package Inventory status column.
-- [ ] Re-verify the L1 witness infrastructure listed in [Current State](#current-state) still builds clean (no builds without user approval).
-- [ ] Re-verify the 5 blocking features still live where the inventory says they do.
+Grepped all 22 packages (2026-04-08). Results corrected the prior attempt's categorization:
 
-### Step 1 — Resolve destination layers per Open Question 1
+| # | Package | Conformances | Blocking features | Corrected group |
+|--:|---|--:|---|---|
+|  1 | rfc-791 | 2 | — | protocol-only |
+|  2 | rfc-1035 | 2 | — | protocol-only |
+|  3 | rfc-1123 | 2 | — | protocol-only |
+|  4 | rfc-2369 | 4 | — | protocol-only |
+|  5 | rfc-2387 | 2 | — | protocol-only (**was FAIL in prior attempt — corrected**) |
+|  6 | rfc-3339 | 4 | — | protocol-only |
+|  7 | rfc-3986 | 9 | — | protocol-only |
+|  8 | rfc-3987 | 2 | — | protocol-only |
+|  9 | rfc-4007 | 1 | — | protocol-only |
+| 10 | rfc-4291 | 2 | — | protocol-only |
+| 11 | rfc-7519 | 2 | — | protocol-only |
+| 12 | rfc-9557 | 6 | — | protocol-only |
+| 13 | rfc-2045 | 7 | F1, F3 | feature-blocked |
+| 14 | rfc-2183 | 6 | F1, F3 | feature-blocked |
+| 15 | rfc-2822 | 24 | F3 | feature-blocked (**was OK in prior attempt — corrected**) |
+| 16 | rfc-5321 | 4 | F1 | feature-blocked |
+| 17 | rfc-5322 | 8 | F1, F2 | feature-blocked |
+| 18 | rfc-6531 | 4 | F1, F3 | feature-blocked (**direct, not just transitive**) |
+| 19 | rfc-7617 | 4 | F3 | feature-blocked (**was OK in prior attempt — corrected**) |
+| 20 | rfc-6068 | 4 | — | transitive (depends on 5321/5322) |
+| 21 | iso-9945 | 0 | F5 | feature-blocked |
+| 22 | whatwg-url | 16 | — | protocol-only |
 
-Per the user's resolution, decide where each item lives. (Options enumerated in [Open Questions](#open-questions).) Record decisions inline here, then proceed.
+**Corrected groupings**: 12 protocol-only (was 13), 8 feature-blocked (was 5+1), 1 transitive (was 2), 1 to verify (whatwg-url — no blocking features detected despite 16 conformances).
+
+All 22 packages still depend on `swift-ascii` in Package.swift. All are in dirty git state (uncommitted changes from unrelated work). Total conformances: ~109 across 22 packages.
+
+### Step 1 — Resolve destination layers — DONE (B + α)
+
+**Resolution** (user-confirmed 2026-04-08):
+- *Rule 1*: Features defined by INCITS 4-1986 belong in the spec package (`swift-incits-4-1986`, L2).
+- *Rule 2*: L1 stays minimal and spec-agnostic.
+
+| Feature | Destination | Rationale |
+|---|---|---|
+| F1 `Set.ASCII` namespace + `Set<Character>.ascii.whitespaces` | **L2** (`swift-incits-4-1986`) | INCITS-defined whitespace set |
+| F2 `Set<UInt8>.ascii.whitespaces` | **L2** | INCITS-defined whitespace set |
+| F3 `[UInt8].ASCII` static namespace + `.crlf`/`.cr`/`.lf` | **L2** | INCITS-defined control characters |
+| F4 instance `.ascii` collection accessor | **L2** | Returns `INCITS_4_1986.ASCII<C>` — already L2 |
+| F5 `Binary.ASCII.equals.nulTerminated()` | **L1** | stdlib-only, not spec-derived |
+| `Binary.ASCII.Serializable` protocol + extensions | **L1** | Depends on stdlib + `Binary.Serializable` (L1) |
 
 ### Step 2 — Move features bottom-up (L1 first, then L2, then protocol)
 
 Move in this order so that later steps can depend on earlier ones. Each sub-step is a separate commit.
 
-- [ ] **2a.** Move `Binary.ASCII.equals.nulTerminated()` to L1 (stdlib-only; trivial).
-- [ ] **2b.** Per OQ1 resolution: add `Set.ASCII` namespace + `Set<UInt8>.ascii.whitespaces`, `Set<Character>.ascii.whitespaces` at the chosen layer, with atomic removal from L3 in the same commit.
-- [ ] **2c.** Per OQ1 resolution: add `[UInt8].ASCII` static namespace + `.crlf`/`.cr`/`.lf` at the chosen layer, with atomic removal from L3 in the same commit.
-- [ ] **2d.** Per OQ1 resolution: decide the instance `.ascii` collection accessor's new home (likely L2, since it already returns an L2 wrapper). Atomic swap.
+- [ ] **2a.** Move `Binary.ASCII.equals.nulTerminated()` to L1 (stdlib-only; trivial). Target: `ascii-primitives` or new target in `swift-ascii-serializer-primitives`.
+- [ ] **2b.** Add to L2 (`swift-incits-4-1986`): `Set.ASCII` namespace + `Set<UInt8>.ascii.whitespaces` + `Set<Character>.ascii.whitespaces`. Atomic removal from L3 `swift-ascii` in the same build-graph-visible change.
+- [ ] **2c.** Add to L2 (`swift-incits-4-1986`): `[UInt8].ASCII` static namespace + `.crlf`/`.cr`/`.lf`. Atomic removal from L3.
+- [ ] **2d.** Move the instance `.ascii` collection accessor to L2 (`swift-incits-4-1986`). It already returns `INCITS_4_1986.ASCII<Self>` — the wrapper already lives in L2. Atomic removal from L3.
 - [ ] **2e.** Move `Binary.ASCII.Serializable` + `Binary.ASCII.RawRepresentable` + convenience extensions to L1 in a new `ASCII Serializable Primitives` target of `swift-ascii-serializer-primitives`. L3 `swift-ascii` re-exports from L1 (no conformer churn). Proven to work before the revert.
 
-After each step: build L1 + L3 in isolation (ask before building).
+After each step: build L1/L2 + L3 in isolation (ask before building).
 
-### Step 3 — Migrate the 13 pure-protocol-usage packages
+### Step 3 — Migrate the 12 protocol-only packages
 
-- [ ] For each of: rfc-791, 1035, 1123, 2369, 2822, 3339, 3986, 3987, 4007, 4291, 7519, 7617, 9557 — swap `swift-ascii` (L3) dep for L1 (`ASCII Serializable Primitives`) + update imports. Build + test per package (ask before building).
+- [ ] For each of: rfc-791, 1035, 1123, 2369, 2387, 3339, 3986, 3987, 4007, 4291, 7519, 9557 — swap `swift-ascii` (L3) dep for L1 (`ASCII Serializable Primitives`) + update imports.
+- [ ] whatwg-url — same (16 conformances, no blocking features). Verify first.
 
-### Step 4 — Migrate the 8 feature-blocked packages
+Build + test per package (ask before building).
 
-- [ ] rfc-2045, 2183, 2387, 5321, 5322 — L1 (protocol) + whichever layer(s) OQ1 designates for F1–F4.
-- [ ] rfc-6068, 6531 — transitive via 5321/5322; should resolve once those are done.
-- [ ] iso-9945 — L1 (F5).
-- [ ] whatwg-url — verify deps, then migrate.
+### Step 4 — Migrate the 8 feature-blocked packages + 1 transitive
+
+- [ ] rfc-2045, 2183, 2822, 5321, 5322, 6531, 7617 — L1 (protocol) + L2 `swift-incits-4-1986` (for F1–F4 features).
+- [ ] rfc-6068 — transitive only; depends on 5321/5322. Should resolve once those are done.
+- [ ] iso-9945 — L1 only (F5 already in L1 after Step 2a).
 
 After each package: build + test (ask before building).
 
@@ -302,31 +342,17 @@ After each package: build + test (ask before building).
 
 ## Open Questions
 
-### OQ1 — Destination layer for `Set.ASCII` / `[UInt8].ASCII` / `INCITS_4_1986.ASCII<C>` wrapper
+### OQ1 — Destination layer for `Set.ASCII` / `[UInt8].ASCII` / `INCITS_4_1986.ASCII<C>` wrapper — RESOLVED
 
-**BLOCKING.** This is the specific question that caused the prior revert. The user must choose before any code moves.
+**RESOLVED** (2026-04-08): **B + α**.
 
-The options form two axes: *which namespaces go to L1 vs L2*, and *how the `INCITS_4_1986.ASCII<C>` wrapper is reached from the 8 feature-blocked packages*.
+**Rules applied**:
+1. Features defined by INCITS 4-1986 belong in the spec package (`swift-incits-4-1986`, L2).
+2. L1 stays minimal and spec-agnostic.
 
-**Options for namespaces (`Set.ASCII`, `[UInt8].ASCII`) and their whitespace/CRLF constants**:
+**Decision**: All INCITS-derived features (F1–F4) → L2 `swift-incits-4-1986`. F5 (stdlib-only) → L1. Protocol → L1.
 
-| Option | Where `Set.ASCII` & `[UInt8].ASCII` live | What they wrap | Trade-off |
-|---|---|---|---|
-| **A** | L1 (`ascii-primitives` extensions) | L1 constants (`ASCII.whitespaces`, `ASCII.Character.Control.cr/.lf`) | Self-contained L1. No L1→L2 back-reference. Drops the *symbolic* link between the rfc consumers' whitespace set and the INCITS spec, because L1 has its own copy. |
-| **B** | L2 (`swift-incits-4-1986` extensions on stdlib types) | L2 constants (`INCITS_4_1986.whitespaces`, `INCITS_4_1986.Character.Control.crlf`) | Preserves the INCITS spec provenance. Forces the 8 feature-blocked packages to take an L2→L2 dep on `swift-incits-4-1986` (allowed per key decisions). |
-| **C** | Split: `Set.ASCII` in L1, instance `[UInt8].ascii` collection accessor in L2 | Mix | The cleanest split by *ownership* but two layers to reason about. |
-
-**Options for the `INCITS_4_1986.ASCII<C>` wrapper** (used by F4 — `bytes.ascii.trimming()` / `.lowercased()`):
-
-| Option | Approach | Trade-off |
-|---|---|---|
-| **α** | Leave the wrapper in L2 where it already lives; rfc-2045 takes an L2→L2 dep; the instance `.ascii` accessor is reached via that L2 package (not L3 swift-ascii). | Minimal change to L2; requires extending the accessor definition to live in L2. Atomic swap needed with L3's current definition. |
-| **β** | Move the wrapper to L1 with self-contained byte-level operations (no INCITS dep). | L1 gains a non-trivial wrapper type; duplicates what L2 already has. |
-| **γ** | Define a *lighter* L1 wrapper type with just `.trimming()` + `.lowercased()`; leave the richer `INCITS_4_1986.ASCII<C>` in L2. | Two wrappers for the same concept — high drift risk. |
-
-**Recommendation (not a decision)**: **B + α**. Features defined by INCITS 4-1986 belong in the spec package; L2→L2 deps are explicitly allowed; the rich wrapper already lives there. L1 stays minimal and spec-agnostic. But the user's judgment is required — this has non-obvious trade-offs around release surface and re-export topology.
-
-**Constraint for whichever option wins**: the L3 `swift-ascii` declarations must be removed **atomically** with the L1/L2 additions (same build-graph-visible change) to avoid the `'ascii' is ambiguous` re-export conflict that caused the prior revert.
+**Constraint**: L3 `swift-ascii` declarations must be removed **atomically** with the L2 additions (same build-graph-visible change) to avoid the `'ascii' is ambiguous` re-export conflict that caused the prior revert.
 
 ### OQ2 — Strategy (c) vs full witness migration? — RESOLVED
 
@@ -377,4 +403,5 @@ The following documents are superseded by this plan for Category B scope. Each h
 
 ## Changelog
 
-- **v1.0.0** (2026-04-08) — Initial consolidation. Absorbed HANDOFF.md (at its new location in `swift-primitives/swift-ascii-primitives/Research/`) and the scattered research sources listed above. Plan is BLOCKED on OQ1 resolution; no code changes until user decides where `Set.ASCII`, `[UInt8].ASCII`, and the `INCITS_4_1986.ASCII<C>` wrapper should live.
+- **v2.0.0** (2026-04-08) — OQ1 resolved (B + α): INCITS-derived features → L2, F5 → L1, protocol → L1. Step 0 verification complete: corrected package groupings (12 protocol-only, 8 feature-blocked, 1 transitive, 1 verify). Found 109 conformances across 22 packages. Corrected 3 packages wrongly categorized by prior attempt (rfc-2387: now protocol-only; rfc-2822, rfc-7617: now feature-blocked).
+- **v1.0.0** (2026-04-08) — Initial consolidation. Absorbed HANDOFF.md and scattered research sources. Plan was BLOCKED on OQ1 resolution.
