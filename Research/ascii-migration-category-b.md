@@ -297,14 +297,14 @@ All 22 packages still depend on `swift-ascii` in Package.swift. All are in dirty
 | F2 `Set<UInt8>.ascii.whitespaces` | **L2** | INCITS-defined whitespace set |
 | F3 `[UInt8].ASCII` static namespace + `.crlf`/`.cr`/`.lf` | **L2** | INCITS-defined control characters |
 | F4 instance `.ascii` collection accessor | **L2** | Returns `INCITS_4_1986.ASCII<C>` — already L2 |
-| F5 `Binary.ASCII.equals.nulTerminated()` | **L1** | stdlib-only, not spec-derived |
+| F5 `Binary.ASCII.equals.nulTerminated()` | **L2** (`swift-iso-9899`) | NUL-terminated string comparison is ISO 9899 §7.24.4 (`strcmp`); `ISO_9899.String.Comparison` already owns this domain |
 | `Binary.ASCII.Serializable` protocol + extensions | **L1** | Depends on stdlib + `Binary.Serializable` (L1) |
 
 ### Step 2 — Move features bottom-up (L1 first, then L2, then protocol)
 
 Move in this order so that later steps can depend on earlier ones. Each sub-step is a separate commit.
 
-- [ ] **2a.** Move `Binary.ASCII.equals.nulTerminated()` to L1 (stdlib-only; trivial). Target: `ascii-primitives` or new target in `swift-ascii-serializer-primitives`.
+- [ ] **2a.** Move `Binary.ASCII.equals.nulTerminated()` to L2 `swift-iso-9899` as `ISO_9899.String.Comparison` extension. NUL-terminated comparison is ISO 9899 §7.24.4 (`strcmp`); the package already owns this domain.
 - [ ] **2b.** Add to L2 (`swift-incits-4-1986`): `Set.ASCII` namespace + `Set<UInt8>.ascii.whitespaces` + `Set<Character>.ascii.whitespaces`. Atomic removal from L3 `swift-ascii` in the same build-graph-visible change.
 - [ ] **2c.** Add to L2 (`swift-incits-4-1986`): `[UInt8].ASCII` static namespace + `.crlf`/`.cr`/`.lf`. Atomic removal from L3.
 - [ ] **2d.** Move the instance `.ascii` collection accessor to L2 (`swift-incits-4-1986`). It already returns `INCITS_4_1986.ASCII<Self>` — the wrapper already lives in L2. Atomic removal from L3.
@@ -323,7 +323,7 @@ Build + test per package (ask before building).
 
 - [ ] rfc-2045, 2183, 2822, 5321, 5322, 6531, 7617 — L1 (protocol) + L2 `swift-incits-4-1986` (for F1–F4 features).
 - [ ] rfc-6068 — transitive only; depends on 5321/5322. Should resolve once those are done.
-- [ ] iso-9945 — L1 only (F5 already in L1 after Step 2a).
+- [ ] iso-9945 — L2 `swift-iso-9899` only (F5, no protocol usage). Can drop `swift-ascii` entirely once F5 is in iso-9899.
 
 After each package: build + test (ask before building).
 
