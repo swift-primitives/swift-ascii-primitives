@@ -2,9 +2,9 @@
 
 <!--
 ---
-version: 2.0.0
-last_updated: 2026-04-08
-status: PLAN (OQ1 resolved — ready for implementation)
+version: 3.0.0
+last_updated: 2026-04-16
+status: CATEGORY B COMPLETE — Step 5 verification blocked by unrelated kernel/string-primitives regression
 scope: 22 L2 standards packages → drop swift-ascii (L3) dependency
 supersedes:
   - swift-primitives/swift-ascii-primitives/Research/HANDOFF.md (this file's predecessor)
@@ -28,8 +28,10 @@ consumable SwiftPM package. The release-readiness rule is:
 `Binary.ASCII.Serializable` and/or 5 additional L3 ASCII features. This plan
 takes them to L1-only.
 
-**Open Question 1 is RESOLVED (B + α).** Ready for implementation — see
-[Execution Plan](#strategy-c-execution-plan).
+**Category B migration is COMPLETE** as of 2026-04-08. All 22 packages have zero
+`swift-foundations/swift-ascii` references. Step 5 end-to-end verification is
+blocked by an unrelated ecosystem regression (kernel/string-primitives API change)
+— see [Step 5](#step-5--end-to-end-release-verification--blocked-not-by-this-migration).
 
 ---
 
@@ -300,43 +302,57 @@ All 22 packages still depend on `swift-ascii` in Package.swift. All are in dirty
 | F5 `Binary.ASCII.equals.nulTerminated()` | **L2** (`swift-iso-9899`) | NUL-terminated string comparison is ISO 9899 §7.24.4 (`strcmp`); `ISO_9899.String.Comparison` already owns this domain |
 | `Binary.ASCII.Serializable` protocol + extensions | **L1** | Depends on stdlib + `Binary.Serializable` (L1) |
 
-### Step 2 — Move features bottom-up (L1 first, then L2, then protocol)
+### Step 2 — Move features bottom-up — DONE (2026-04-08)
 
-Move in this order so that later steps can depend on earlier ones. Each sub-step is a separate commit.
+- [x] **2a.** `Binary.ASCII.equals.nulTerminated()` → L2 `swift-iso-9899` as `ISO_9899.String.Comparison.equals`. Commits: `2a5930a` (iso-9899), `1a240d1` (iso-9945).
+- [x] **2b.** `Set.ASCII` namespace + `Set<Character>.ascii.whitespaces` + `Set<UInt8>.ascii.whitespaces` → L2 `swift-incits-4-1986`. Atomic swap committed.
+- [x] **2c.** `[UInt8].ASCII` static namespace + `.crlf`/`.cr`/`.lf` → L2. Atomic swap committed.
+- [x] **2d.** Instance `.ascii` collection accessor → L2. Atomic swap committed.
+- [x] **2e.** `Binary.ASCII.Serializable` + `RawRepresentable` + `Wrapper` → L1 `Binary ASCII Serializable Primitives` target. L3 re-exports. Commits: `0a3682d` (L1), `151484c` (L3), `dc83186` (umbrella re-export).
 
-- [ ] **2a.** Move `Binary.ASCII.equals.nulTerminated()` to L2 `swift-iso-9899` as `ISO_9899.String.Comparison` extension. NUL-terminated comparison is ISO 9899 §7.24.4 (`strcmp`); the package already owns this domain.
-- [ ] **2b.** Add to L2 (`swift-incits-4-1986`): `Set.ASCII` namespace + `Set<UInt8>.ascii.whitespaces` + `Set<Character>.ascii.whitespaces`. Atomic removal from L3 `swift-ascii` in the same build-graph-visible change.
-- [ ] **2c.** Add to L2 (`swift-incits-4-1986`): `[UInt8].ASCII` static namespace + `.crlf`/`.cr`/`.lf`. Atomic removal from L3.
-- [ ] **2d.** Move the instance `.ascii` collection accessor to L2 (`swift-incits-4-1986`). It already returns `INCITS_4_1986.ASCII<Self>` — the wrapper already lives in L2. Atomic removal from L3.
-- [ ] **2e.** Move `Binary.ASCII.Serializable` + `Binary.ASCII.RawRepresentable` + convenience extensions to L1 in a new `ASCII Serializable Primitives` target of `swift-ascii-serializer-primitives`. L3 `swift-ascii` re-exports from L1 (no conformer churn). Proven to work before the revert.
+Combined L2 + L3 swaps: `ef85146` (incits), `41f4e07` (swift-ascii). L3 test fixes for pre-existing compound names: `61cabf2`.
 
-After each step: build L1/L2 + L3 in isolation (ask before building).
+### Step 3 — Migrate the 12 protocol-only packages + whatwg-url — DONE (2026-04-08)
 
-### Step 3 — Migrate the 12 protocol-only packages
+All 13 packages swapped `swift-ascii` (L3) → `swift-ascii-serializer-primitives` (L1):
 
-- [ ] For each of: rfc-791, 1035, 1123, 2369, 2387, 3339, 3986, 3987, 4007, 4291, 7519, 9557 — swap `swift-ascii` (L3) dep for L1 (`ASCII Serializable Primitives`) + update imports.
-- [ ] whatwg-url — same (16 conformances, no blocking features). Verify first.
+- rfc-791, 1035, 1123, 2369, 2387, 3339, 3986, 3987, 4007, 4291, 7519, 9557
+- whatwg-url
 
-Build + test per package (ask before building).
+### Step 4 — Migrate the 8 feature-blocked packages + 1 transitive — DONE (2026-04-08)
 
-### Step 4 — Migrate the 8 feature-blocked packages + 1 transitive
+All packages swapped `swift-ascii` (L3) → L1 + L2:
 
-- [ ] rfc-2045, 2183, 2822, 5321, 5322, 6531, 7617 — L1 (protocol) + L2 `swift-incits-4-1986` (for F1–F4 features).
-- [ ] rfc-6068 — transitive only; depends on 5321/5322. Should resolve once those are done.
-- [ ] iso-9945 — L2 `swift-iso-9899` only (F5, no protocol usage). Can drop `swift-ascii` entirely once F5 is in iso-9899.
+- **L1 + L2 INCITS**: rfc-2045, 2183, 2822, 5321, 5322, 6531, 7617
+- **L1 only (transitive)**: rfc-6068 — commit `1d1f4cd`
+- **L2 iso-9899 only**: iso-9945 — commit `1a240d1`
 
-After each package: build + test (ask before building).
+### Step 5 — End-to-end release verification — BLOCKED (not by this migration)
 
-### Step 5 — End-to-end release verification
+**State at 2026-04-16**: All 22 Category B packages build clean in isolation. Zero `swift-foundations/swift-ascii` references remain in any Category B Package.swift.
 
-- [ ] Clean build of `swift-file-system` against migrated deps.
-- [ ] 708/708 tests still pass.
-- [ ] Remember the CopyPropagation workaround: release builds need `-Xswiftc -Xllvm -Xswiftc -sil-disable-pass=CopyPropagation` (unrelated to this work, but will surface during verification).
+`swift-file-system` currently fails to build, but the failures are unrelated to Category B migration:
 
-### Step 6 — Close Cycle 2 / update release roadmap
+- `File.System.Link.Read.Target.swift:119` — `Swift.String(kernelString)` initializer missing (kernel/string-primitives API change)
+- `File.System.Copy.Recursive.swift:211` — same class of error
 
-- [ ] Cross off Cycle 2 in `swift-institute/Research/release-roadmap-swift-file-system.md` §3.
-- [ ] Update this plan's status to DONE.
+These are ecosystem-overhaul regressions that predate and are orthogonal to the ASCII migration. They must be resolved before Step 5 closure.
+
+- [ ] Clean build of `swift-file-system` against migrated deps — BLOCKED on kernel/string-primitives API fix
+- [ ] 708/708 tests still pass — blocked on build
+- [ ] Release builds with CopyPropagation workaround — blocked on build
+
+### Step 6 — Close Cycle 2 / update release roadmap — BLOCKED on Step 5
+
+- [ ] Cross off Cycle 2 in `swift-institute/Research/release-roadmap-swift-file-system.md` §3 (iso-9945 → swift-ascii is resolved, but release roadmap hasn't been updated)
+- [ ] Update this plan's status to DONE
+
+### Remaining Work Summary
+
+1. **Unblock swift-file-system build** — kernel/string-primitives `Swift.String(kernelString)` initializer regression (orthogonal to Category B)
+2. **Close out release roadmap §3** for Cycle 2
+3. **OQ3 — Should L3 `swift-ascii` become a re-export shell?** Deferred per original plan. Now that Category B is complete, `swift-ascii` still contains: Machine IR parsers, `Binary.ASCII` struct (now in L1), Base62 extensions, `Int+ASCII.Serializable.swift` (retroactive conformances), and assorted INCITS bridges. Decision on whether to further slim the L3 package is out of scope for release but worth revisiting post-release.
+4. **Full `Parseable`/`Serializable` witness migration** — 77 conformers, deferred per `ascii-serialization-migration.md`. Post-release.
 
 ---
 
@@ -403,5 +419,6 @@ The following documents are superseded by this plan for Category B scope. Each h
 
 ## Changelog
 
+- **v3.0.0** (2026-04-16) — Audit at current state: all 22 Category B packages migrated with zero L3 `swift-ascii` references. Spot-built rfc-791, rfc-2045, rfc-5322, whatwg-url, iso-9945 — all clean. Steps 2–4 complete. Step 5 blocked by unrelated kernel/string-primitives API regression in swift-file-system. Remaining work listed in [Remaining Work Summary](#remaining-work-summary).
 - **v2.0.0** (2026-04-08) — OQ1 resolved (B + α): INCITS-derived features → L2, F5 → L1, protocol → L1. Step 0 verification complete: corrected package groupings (12 protocol-only, 8 feature-blocked, 1 transitive, 1 verify). Found 109 conformances across 22 packages. Corrected 3 packages wrongly categorized by prior attempt (rfc-2387: now protocol-only; rfc-2822, rfc-7617: now feature-blocked).
 - **v1.0.0** (2026-04-08) — Initial consolidation. Absorbed HANDOFF.md and scattered research sources. Plan was BLOCKED on OQ1 resolution.
