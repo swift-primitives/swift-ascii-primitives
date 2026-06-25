@@ -5,7 +5,7 @@
 // Authoritative predicates for testing ASCII byte properties
 
 extension ASCII {
-    /// Character Classification Operations
+    /// Character Classification Operations.
     ///
     /// Authoritative implementations of character class tests per INCITS 4-1986.
     /// All classification predicates are defined here as the single source of truth.
@@ -27,7 +27,7 @@ extension ASCII {
 // MARK: - Lookup Table
 
 extension ASCII.Classification {
-    /// Character classification bit flags
+    /// Character classification bit flags.
     @usableFromInline
     internal static let _digit: UInt8 = 0x01
     @usableFromInline
@@ -45,7 +45,7 @@ extension ASCII.Classification {
     @usableFromInline
     internal static let _printable: UInt8 = 0x80
 
-    /// Pre-computed 128-byte lookup table for O(1) character classification
+    /// Pre-computed 128-byte lookup table for O(1) character classification.
     ///
     /// Each byte encodes multiple class memberships via bit flags:
     /// - Bit 0: Digit (0-9)
@@ -106,7 +106,7 @@ extension ASCII.Classification {
         return table
     }()
 
-    /// Fast lookup for ASCII bytes (< 128)
+    /// Fast lookup for ASCII bytes (< 128).
     @_transparent
     @usableFromInline
     internal static func _lookup(_ byte: UInt8) -> UInt8 {
@@ -117,7 +117,7 @@ extension ASCII.Classification {
 // MARK: - Whitespace Classification
 
 extension ASCII.Classification {
-    /// Tests if byte is ASCII whitespace
+    /// Tests if byte is ASCII whitespace.
     ///
     /// Returns `true` for the four ASCII whitespace characters defined in INCITS 4-1986:
     /// - **SPACE** (0x20): Word separator
@@ -143,7 +143,7 @@ extension ASCII.Classification {
 
     // MARK: - Control Character Classification
 
-    /// Tests if byte is ASCII control character
+    /// Tests if byte is ASCII control character.
     ///
     /// Returns `true` for all 33 control characters defined in INCITS 4-1986:
     /// - **C0 controls**: 0x00-0x1F (NULL, SOH, STX, ..., US)
@@ -169,7 +169,7 @@ extension ASCII.Classification {
 
     // MARK: - Graphic Character Classification
 
-    /// Tests if byte is ASCII visible (non-whitespace printable) character
+    /// Tests if byte is ASCII visible (non-whitespace printable) character.
     ///
     /// Returns `true` for visible graphic characters (0x21-0x7E), which are printable characters
     /// **excluding SPACE**. These are characters with distinct visual glyphs.
@@ -192,7 +192,7 @@ extension ASCII.Classification {
         byte >= 0x21 && byte <= 0x7E
     }
 
-    /// Tests if byte is ASCII printable (graphic) character
+    /// Tests if byte is ASCII printable (graphic) character.
     ///
     /// Returns `true` for all printable graphic characters (0x20-0x7E), which includes both
     /// visible characters and SPACE. These are the 95 characters that can appear in displayed text.
@@ -217,7 +217,7 @@ extension ASCII.Classification {
 
     // MARK: - Digit Classification
 
-    /// Tests if byte is ASCII digit ('0'...'9')
+    /// Tests if byte is ASCII digit ('0'...'9').
     ///
     /// Returns `true` for bytes in the range 0x30-0x39.
     ///
@@ -237,7 +237,7 @@ extension ASCII.Classification {
         (byte &- 0x30) < 10
     }
 
-    /// Tests if byte is ASCII hexadecimal digit ('0'...'9', 'A'...'F', 'a'...'f')
+    /// Tests if byte is an ASCII hexadecimal digit.
     ///
     /// Returns `true` for bytes that represent valid hexadecimal digits in either case.
     ///
@@ -261,7 +261,7 @@ extension ASCII.Classification {
 
     // MARK: - Letter Classification
 
-    /// Tests if byte is ASCII letter ('A'...'Z' or 'a'...'z')
+    /// Tests if byte is ASCII letter ('A'...'Z' or 'a'...'z').
     ///
     /// Returns `true` for uppercase letters (0x41-0x5A) or lowercase letters (0x61-0x7A).
     ///
@@ -281,7 +281,7 @@ extension ASCII.Classification {
         (byte &- 0x41) < 26 || (byte &- 0x61) < 26
     }
 
-    /// Tests if byte is ASCII uppercase letter ('A'...'Z')
+    /// Tests if byte is ASCII uppercase letter ('A'...'Z').
     ///
     /// Returns `true` for bytes in the range 0x41-0x5A.
     ///
@@ -301,7 +301,7 @@ extension ASCII.Classification {
         (byte &- 0x41) < 26
     }
 
-    /// Tests if byte is ASCII lowercase letter ('a'...'z')
+    /// Tests if byte is ASCII lowercase letter ('a'...'z').
     ///
     /// Returns `true` for bytes in the range 0x61-0x7A.
     ///
@@ -321,7 +321,7 @@ extension ASCII.Classification {
         (byte &- 0x61) < 26
     }
 
-    /// Tests if byte is ASCII alphanumeric (digit or letter)
+    /// Tests if byte is ASCII alphanumeric (digit or letter).
     ///
     /// Returns `true` if the byte is either a digit or a letter (uppercase or lowercase).
     ///

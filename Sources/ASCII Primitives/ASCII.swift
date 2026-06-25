@@ -4,7 +4,7 @@
 // ASCII Primitives - Tier 0 zero-dependency implementation
 // Based on INCITS 4-1986 (R2022): 7-Bit American Standard Code for Information Interchange
 
-/// ASCII: American Standard Code for Information Interchange
+/// ASCII: American Standard Code for Information Interchange.
 ///
 /// Authoritative namespace for all US-ASCII definitions and operations.
 ///
@@ -25,37 +25,42 @@
 /// ## Nested Namespaces
 ///
 /// The standard's structure is reflected in nested type namespaces:
-/// - ``ControlCharacters``: All 33 control characters (NUL, SOH, STX, ..., DEL)
-/// - ``GraphicCharacters``: 94 printable characters (letters, digits, punctuation)
+/// - ``Character/Control``: All 33 control characters (NUL, SOH, STX, ..., DEL)
+/// - ``Character/Graphic``: 94 printable characters (letters, digits, punctuation)
 /// - ``SPACE``: The space character (0x20) with its dual nature
 ///
 /// ## Usage
 ///
 /// ```swift
 /// // Access control characters
-/// let lineFeed = ASCII.ControlCharacters.lf
-/// let carriageReturn = ASCII.ControlCharacters.cr
+/// let lineFeed = ASCII.Character.Control.lf
+/// let carriageReturn = ASCII.Character.Control.cr
 ///
 /// // Access graphic characters
-/// let letterA = ASCII.GraphicCharacters.A
-/// let digit0 = ASCII.GraphicCharacters.zero
+/// let letterA = ASCII.Character.Graphic.A
+/// let digit0 = ASCII.Character.Graphic.zero
 ///
 /// // Use common constants
 /// let whitespace = ASCII.whitespaces
-/// let lineEnding = ASCII.ControlCharacters.crlf
+/// let lineEnding = ASCII.Character.Control.crlf
 /// ```
 ///
 /// ## See Also
 ///
-/// - ``ControlCharacters``
-/// - ``GraphicCharacters``
+/// - ``Character/Control``
+/// - ``Character/Graphic``
 /// - ``SPACE``
 /// - ``whitespaces``
-/// - ``CaseConversion/offset``
+/// - ``Case.Conversion/offset``
 public enum ASCII {}
 
 extension ASCII {
-    /// ASCII Letter Case
+    /// Namespace for ASCII character classifications.
+    public enum Character {}
+}
+
+extension ASCII {
+    /// ASCII Letter Case.
     ///
     /// Per INCITS 4-1986 Table 7, ASCII letters exist in two cases:
     /// - Capital letters: A-Z (0x41-0x5A)
@@ -69,7 +74,7 @@ extension ASCII {
 }
 
 extension ASCII {
-    /// Canonical definition of ASCII whitespace bytes
+    /// Canonical definition of ASCII whitespace bytes.
     ///
     /// Single source of truth for ASCII whitespace per INCITS 4-1986.
     /// Contains exactly four characters:
@@ -87,8 +92,8 @@ extension ASCII {
     /// ## Usage
     ///
     /// ```swift
-    /// let byte: UInt8 = 0x20
-    /// if ASCII.whitespaces.contains(byte) {
+    /// let code: ASCII.Code = .sp
+    /// if ASCII.whitespaces.contains(code) {
     ///     print("Is whitespace")
     /// }
     /// ```
@@ -96,13 +101,13 @@ extension ASCII {
     /// ## See Also
     ///
     /// - ``SPACE``
-    /// - ``ControlCharacters/htab``
-    /// - ``ControlCharacters/lf``
-    /// - ``ControlCharacters/cr``
-    public static let whitespaces: Set<UInt8> = [
-        SPACE.sp,
-        ControlCharacters.htab,
-        ControlCharacters.lf,
-        ControlCharacters.cr,
+    /// - ``Control/htab``
+    /// - ``Control/lf``
+    /// - ``Control/cr``
+    public static let whitespaces: Set<ASCII.Code> = [
+        .sp,
+        .htab,
+        .lf,
+        .cr,
     ]
 }

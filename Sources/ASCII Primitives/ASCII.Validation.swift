@@ -5,14 +5,14 @@
 // Validates that bytes conform to the 7-bit ASCII range (0x00-0x7F)
 
 extension ASCII {
-    /// Validation Operations
+    /// Validation Operations.
     ///
     /// Authoritative implementations for validating ASCII byte sequences.
     public enum Validation {}
 }
 
 extension ASCII.Validation {
-    /// Returns true if the byte is valid ASCII (0x00-0x7F)
+    /// Returns true if the byte is valid ASCII (0x00-0x7F).
     ///
     /// Per INCITS 4-1986 Section 4: The coded character set consists of
     /// 128 characters represented by 7-bit combinations (0/0 to 7/15).
@@ -30,7 +30,7 @@ extension ASCII.Validation {
         byte <= 0x7F
     }
 
-    /// Returns true if all bytes are valid ASCII (0x00-0x7F)
+    /// Returns true if all bytes are valid ASCII (0x00-0x7F).
     ///
     /// Per INCITS 4-1986 Section 4: The coded character set consists of
     /// 128 characters represented by 7-bit combinations (0/0 to 7/15).
@@ -51,18 +51,18 @@ extension ASCII.Validation {
     /// ASCII.Validation.isAllASCII(slice)
     /// ```
     @inlinable
-    public static func isAllASCII<C: Collection>(
+    public static func isAllASCII<C: Swift.Collection>(
         _ bytes: C
     ) -> Bool where C.Element == UInt8 {
         // Fast path: SIMD-accelerated for any contiguous storage
-        if let result = bytes.withContiguousStorageIfAvailable({ _isAllASCIIFast($0) }) {
+        if let result = bytes.withContiguousStorageIfAvailable({ unsafe _isAllASCIIFast($0) }) {
             return result
         }
         // Generic path: delegate to authoritative predicate
-        return bytes.allSatisfy { ASCII.Validation.isASCII($0) }
+        return bytes.allSatisfy { Self.isASCII($0) }
     }
 
-    /// SIMD-style ASCII validation for contiguous buffers
+    /// SIMD-style ASCII validation for contiguous buffers.
     ///
     /// Processes 8 bytes at a time by checking if any byte has its high bit set.
     /// The mask 0x8080808080808080 tests bit 7 of each byte simultaneously.
@@ -77,7 +77,7 @@ extension ASCII.Validation {
         // Check if any of the 8 bytes has the high bit set
         let highBitMask: UInt64 = 0x8080_8080_8080_8080
         while i + 8 <= count {
-            let chunk = base.advanced(by: i).withMemoryRebound(to: UInt64.self, capacity: 1) { $0.pointee }
+            let chunk = unsafe base.advanced(by: i).withMemoryRebound(to: UInt64.self, capacity: 1) { unsafe $0.pointee }
             if chunk & highBitMask != 0 {
                 return false
             }
@@ -86,7 +86,7 @@ extension ASCII.Validation {
 
         // Handle remaining bytes (0-7)
         while i < count {
-            if base[i] > 0x7F {
+            if unsafe base[i] > 0x7F {
                 return false
             }
             i += 1
@@ -99,7 +99,7 @@ extension ASCII.Validation {
 // MARK: - Convenience on ASCII namespace
 
 extension ASCII {
-    /// Returns true if the byte is valid ASCII (0x00-0x7F)
+    /// Returns true if the byte is valid ASCII (0x00-0x7F).
     ///
     /// Convenience accessor for ``Validation/isASCII(_:)``.
     @_transparent
@@ -107,11 +107,11 @@ extension ASCII {
         Validation.isASCII(byte)
     }
 
-    /// Returns true if all bytes are valid ASCII (0x00-0x7F)
+    /// Returns true if all bytes are valid ASCII (0x00-0x7F).
     ///
     /// Convenience accessor for ``Validation/isAllASCII(_:)``.
     @inlinable
-    public static func isAllASCII<C: Collection>(
+    public static func isAllASCII<C: Swift.Collection>(
         _ bytes: C
     ) -> Bool where C.Element == UInt8 {
         Validation.isAllASCII(bytes)

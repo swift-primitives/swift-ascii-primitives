@@ -4,7 +4,7 @@
 // Section 4.2: SPACE (INCITS 4-1986)
 
 extension ASCII {
-    /// Section 4.2: SPACE (0x20)
+    /// Section 4.2: SPACE (0x20).
     ///
     /// Namespace for the SPACE character, which uniquely serves both as a graphic character and a control character.
     ///
@@ -51,14 +51,14 @@ extension ASCII {
     ///
     /// // Use in word separation
     /// let bytes: [UInt8] = [
-    ///     ASCII.GraphicCharacters.H,
-    ///     ASCII.GraphicCharacters.i,
+    ///     ASCII.Character.Graphic.H,
+    ///     ASCII.Character.Graphic.i,
     ///     ASCII.SPACE.sp,
-    ///     ASCII.GraphicCharacters.t,
-    ///     ASCII.GraphicCharacters.h,
-    ///     ASCII.GraphicCharacters.e,
-    ///     ASCII.GraphicCharacters.r,
-    ///     ASCII.GraphicCharacters.e
+    ///     ASCII.Character.Graphic.t,
+    ///     ASCII.Character.Graphic.h,
+    ///     ASCII.Character.Graphic.e,
+    ///     ASCII.Character.Graphic.r,
+    ///     ASCII.Character.Graphic.e
     /// ]
     ///
     /// // Check for whitespace (includes SPACE)
@@ -71,13 +71,13 @@ extension ASCII {
     /// ## See Also
     ///
     /// - ``ASCII/whitespaces``
-    /// - ``GraphicCharacters``
-    /// - ``ControlCharacters``
+    /// - ``Graphic``
+    /// - ``Control``
     public enum SPACE {}
 }
 
 extension ASCII.SPACE {
-    /// SPACE (0x20) - The dual-nature whitespace character
+    /// SPACE (0x20) - The dual-nature whitespace character.
     ///
     /// The authoritative definition of the SPACE character in US-ASCII.
     ///
@@ -101,14 +101,14 @@ extension ASCII.SPACE {
     ///
     /// // Word separation in byte arrays
     /// let greeting: [UInt8] = [
-    ///     ASCII.GraphicCharacters.H,
-    ///     ASCII.GraphicCharacters.i,
+    ///     ASCII.Character.Graphic.H,
+    ///     ASCII.Character.Graphic.i,
     ///     ASCII.SPACE.sp,  // Word separator
-    ///     ASCII.GraphicCharacters.t,
-    ///     ASCII.GraphicCharacters.h,
-    ///     ASCII.GraphicCharacters.e,
-    ///     ASCII.GraphicCharacters.r,
-    ///     ASCII.GraphicCharacters.e
+    ///     ASCII.Character.Graphic.t,
+    ///     ASCII.Character.Graphic.h,
+    ///     ASCII.Character.Graphic.e,
+    ///     ASCII.Character.Graphic.r,
+    ///     ASCII.Character.Graphic.e
     /// ]
     ///
     /// // Part of whitespace set

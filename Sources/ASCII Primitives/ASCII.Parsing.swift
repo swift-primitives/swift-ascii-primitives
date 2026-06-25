@@ -5,7 +5,7 @@
 // Authoritative transformations from ASCII digit bytes to numeric values
 
 extension ASCII {
-    /// Numeric Value Parsing Operations
+    /// Numeric Value Parsing Operations.
     ///
     /// Authoritative implementations for converting ASCII digit bytes to numeric values.
     /// These are pure functions that form Galois connections between predicates and values.
@@ -20,7 +20,7 @@ extension ASCII {
 extension ASCII.Parsing {
     // MARK: - Decimal Digit Parsing
 
-    /// Parses an ASCII digit byte to its numeric value (0-9)
+    /// Parses an ASCII digit byte to its numeric value (0-9).
     ///
     /// Pure function transformation from ASCII digit to numeric value.
     /// Inverse operation of the `isDigit` predicate.
@@ -52,12 +52,12 @@ extension ASCII.Parsing {
     @inlinable
     public static func digit(_ byte: UInt8) -> UInt8? {
         guard ASCII.Classification.isDigit(byte) else { return nil }
-        return byte - ASCII.GraphicCharacters.`0`
+        return byte - ASCII.Character.Graphic.`0`
     }
 
     // MARK: - Hexadecimal Digit Parsing
 
-    /// Parses an ASCII hex digit byte to its numeric value (0-15)
+    /// Parses an ASCII hex digit byte to its numeric value (0-15).
     ///
     /// Pure function transformation from ASCII hex digit to numeric value.
     /// Inverse operation of the `isHexDigit` predicate.
@@ -91,12 +91,15 @@ extension ASCII.Parsing {
     @inlinable
     public static func hexDigit(_ byte: UInt8) -> UInt8? {
         switch byte {
-        case ASCII.GraphicCharacters.`0`...ASCII.GraphicCharacters.`9`:
-            return byte - ASCII.GraphicCharacters.`0`
-        case ASCII.GraphicCharacters.A...ASCII.GraphicCharacters.F:
-            return byte - ASCII.GraphicCharacters.A + 10
-        case ASCII.GraphicCharacters.a...ASCII.GraphicCharacters.f:
-            return byte - ASCII.GraphicCharacters.a + 10
+        case ASCII.Character.Graphic.`0`...ASCII.Character.Graphic.`9`:
+            return byte - ASCII.Character.Graphic.`0`
+
+        case ASCII.Character.Graphic.A...ASCII.Character.Graphic.F:
+            return byte - ASCII.Character.Graphic.A + 10
+
+        case ASCII.Character.Graphic.a...ASCII.Character.Graphic.f:
+            return byte - ASCII.Character.Graphic.a + 10
+
         default:
             return nil
         }

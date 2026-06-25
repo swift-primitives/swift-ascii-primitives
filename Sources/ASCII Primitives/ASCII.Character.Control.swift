@@ -1,10 +1,10 @@
-// ASCII.ControlCharacters.swift
+// ASCII.Character.Control.swift
 // swift-ascii-primitives
 //
 // Section 4.1: Control Characters (INCITS 4-1986)
 
-extension ASCII {
-    /// Section 4.1: Control Characters (0x00-0x1F, 0x7F)
+extension ASCII.Character {
+    /// Section 4.1: Control Characters (0x00-0x1F, 0x7F).
     ///
     /// Namespace for the 33 non-printing control characters defined in US-ASCII.
     ///
@@ -52,14 +52,14 @@ extension ASCII {
     ///
     /// ```swift
     /// // Common line endings
-    /// let lineFeed = ASCII.ControlCharacters.lf      // Unix/macOS
-    /// let carriageReturn = ASCII.ControlCharacters.cr // Classic Mac
+    /// let lineFeed = ASCII.Character.Control.lf      // Unix/macOS
+    /// let carriageReturn = ASCII.Character.Control.cr // Classic Mac
     ///
     /// // Formatting
-    /// let tab = ASCII.ControlCharacters.htab
+    /// let tab = ASCII.Character.Control.htab
     ///
     /// // Transmission control
-    /// let escape = ASCII.ControlCharacters.esc  // ANSI escape sequences
+    /// let escape = ASCII.Character.Control.esc  // ANSI escape sequences
     ///
     /// // Check if byte is a control character
     /// let byte: UInt8 = 0x0A
@@ -69,124 +69,124 @@ extension ASCII {
     /// ## See Also
     ///
     /// - ``ASCII/whitespaces``
-    public enum ControlCharacters {}
+    public enum Control {}
 }
 
-extension ASCII.ControlCharacters {
-    /// NULL character (0x00)
+extension ASCII.Character.Control {
+    /// NULL character (0x00).
     public static let nul: UInt8 = 0x00
 }
 
-extension ASCII.ControlCharacters {
-    /// START OF HEADING (0x01)
+extension ASCII.Character.Control {
+    /// START OF HEADING (0x01).
     public static let soh: UInt8 = 0x01
 
-    /// START OF TEXT (0x02)
+    /// START OF TEXT (0x02).
     public static let stx: UInt8 = 0x02
 
-    /// END OF TEXT (0x03)
+    /// END OF TEXT (0x03).
     public static let etx: UInt8 = 0x03
 
-    /// END OF TRANSMISSION (0x04)
+    /// END OF TRANSMISSION (0x04).
     public static let eot: UInt8 = 0x04
 
-    /// ENQUIRY (0x05)
+    /// ENQUIRY (0x05).
     public static let enq: UInt8 = 0x05
 
-    /// ACKNOWLEDGE (0x06)
+    /// ACKNOWLEDGE (0x06).
     public static let ack: UInt8 = 0x06
 
-    /// DATA LINK ESCAPE (0x10)
+    /// DATA LINK ESCAPE (0x10).
     public static let dle: UInt8 = 0x10
 
-    /// NEGATIVE ACKNOWLEDGE (0x15)
+    /// NEGATIVE ACKNOWLEDGE (0x15).
     public static let nak: UInt8 = 0x15
 
-    /// SYNCHRONOUS IDLE (0x16)
+    /// SYNCHRONOUS IDLE (0x16).
     public static let syn: UInt8 = 0x16
 
-    /// END OF TRANSMISSION BLOCK (0x17)
+    /// END OF TRANSMISSION BLOCK (0x17).
     public static let etb: UInt8 = 0x17
 }
 
-extension ASCII.ControlCharacters {
-    /// BACKSPACE (0x08)
+extension ASCII.Character.Control {
+    /// BACKSPACE (0x08).
     public static let bs: UInt8 = 0x08
 
-    /// HORIZONTAL TAB (0x09)
+    /// HORIZONTAL TAB (0x09).
     public static let htab: UInt8 = 0x09
 
-    /// LINE FEED (0x0A)
+    /// LINE FEED (0x0A).
     public static let lf: UInt8 = 0x0A
 
-    /// VERTICAL TAB (0x0B)
+    /// VERTICAL TAB (0x0B).
     public static let vtab: UInt8 = 0x0B
 
-    /// FORM FEED (0x0C)
+    /// FORM FEED (0x0C).
     public static let ff: UInt8 = 0x0C
 
-    /// CARRIAGE RETURN (0x0D)
+    /// CARRIAGE RETURN (0x0D).
     public static let cr: UInt8 = 0x0D
 }
 
-extension ASCII.ControlCharacters {
-    /// SHIFT OUT (0x0E)
+extension ASCII.Character.Control {
+    /// SHIFT OUT (0x0E).
     public static let so: UInt8 = 0x0E
 
-    /// SHIFT IN (0x0F)
+    /// SHIFT IN (0x0F).
     public static let si: UInt8 = 0x0F
 
-    /// ESCAPE (0x1B)
+    /// ESCAPE (0x1B).
     public static let esc: UInt8 = 0x1B
 }
 
-extension ASCII.ControlCharacters {
-    /// DEVICE CONTROL ONE (0x11) - XON in flow control
+extension ASCII.Character.Control {
+    /// DEVICE CONTROL ONE (0x11) - XON in flow control.
     public static let dc1: UInt8 = 0x11
 
-    /// DEVICE CONTROL TWO (0x12)
+    /// DEVICE CONTROL TWO (0x12).
     public static let dc2: UInt8 = 0x12
 
-    /// DEVICE CONTROL THREE (0x13) - XOFF in flow control
+    /// DEVICE CONTROL THREE (0x13) - XOFF in flow control.
     public static let dc3: UInt8 = 0x13
 
-    /// DEVICE CONTROL FOUR (0x14)
+    /// DEVICE CONTROL FOUR (0x14).
     public static let dc4: UInt8 = 0x14
 }
 
-extension ASCII.ControlCharacters {
-    /// FILE SEPARATOR (0x1C)
+extension ASCII.Character.Control {
+    /// FILE SEPARATOR (0x1C).
     public static let fs: UInt8 = 0x1C
 
-    /// GROUP SEPARATOR (0x1D)
+    /// GROUP SEPARATOR (0x1D).
     public static let gs: UInt8 = 0x1D
 
-    /// RECORD SEPARATOR (0x1E)
+    /// RECORD SEPARATOR (0x1E).
     public static let rs: UInt8 = 0x1E
 
-    /// UNIT SEPARATOR (0x1F)
+    /// UNIT SEPARATOR (0x1F).
     public static let us: UInt8 = 0x1F
 }
 
-extension ASCII.ControlCharacters {
-    /// BELL (0x07)
+extension ASCII.Character.Control {
+    /// BELL (0x07).
     public static let bel: UInt8 = 0x07
 
-    /// CANCEL (0x18)
+    /// CANCEL (0x18).
     public static let can: UInt8 = 0x18
 
-    /// END OF MEDIUM (0x19)
+    /// END OF MEDIUM (0x19).
     public static let em: UInt8 = 0x19
 
-    /// SUBSTITUTE (0x1A)
+    /// SUBSTITUTE (0x1A).
     public static let sub: UInt8 = 0x1A
 
-    /// DELETE (0x7F)
+    /// DELETE (0x7F).
     public static let del: UInt8 = 0x7F
 }
 
-extension ASCII.ControlCharacters {
-    /// CRLF line ending (0x0D 0x0A)
+extension ASCII.Character.Control {
+    /// CRLF line ending (0x0D 0x0A).
     ///
     /// The canonical line ending sequence consisting of CARRIAGE RETURN (0x0D) followed by LINE FEED (0x0A).
     ///
@@ -206,19 +206,19 @@ extension ASCII.ControlCharacters {
     ///
     /// ```swift
     /// // Access the CRLF bytes directly
-    /// let lineEnding = ASCII.ControlCharacters.crlf  // [0x0D, 0x0A]
+    /// let lineEnding = ASCII.Character.Control.crlf  // [0x0D, 0x0A]
     ///
     /// // Append CRLF to byte array
     /// var bytes: [UInt8] = [0x48, 0x69]  // "Hi"
-    /// bytes += ASCII.ControlCharacters.crlf
+    /// bytes += ASCII.Character.Control.crlf
     /// ```
     ///
     /// ## See Also
     ///
-    /// - ``ControlCharacters/cr``
-    /// - ``ControlCharacters/lf``
+    /// - ``Control/cr``
+    /// - ``Control/lf``
     public static let crlf: [UInt8] = [
-        ASCII.ControlCharacters.cr,
-        ASCII.ControlCharacters.lf,
+        ASCII.Character.Control.cr,
+        ASCII.Character.Control.lf,
     ]
 }

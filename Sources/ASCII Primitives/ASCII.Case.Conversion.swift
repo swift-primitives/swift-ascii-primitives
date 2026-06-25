@@ -1,11 +1,11 @@
-// ASCII.CaseConversion.swift
+// ASCII.Case.Conversion.swift
 // swift-ascii-primitives
 //
 // INCITS 4-1986 Section 4.3: Graphic Characters - Case Conversion
 // Transforms ASCII letters between uppercase and lowercase
 
-extension ASCII {
-    /// Case Conversion Operations
+extension ASCII.Case {
+    /// Case Conversion Operations.
     ///
     /// Authoritative implementations for converting ASCII letters between uppercase and lowercase.
     ///
@@ -13,11 +13,11 @@ extension ASCII {
     /// - Capital letters: A-Z (0x41-0x5A)
     /// - Small letters: a-z (0x61-0x7A)
     /// - Difference between cases: 32 (0x20)
-    public enum CaseConversion {}
+    public enum Conversion {}
 }
 
-extension ASCII.CaseConversion {
-    /// ASCII case conversion offset
+extension ASCII.Case.Conversion {
+    /// ASCII case conversion offset.
     ///
     /// The numeric distance between corresponding uppercase and lowercase ASCII letters.
     ///
@@ -35,21 +35,21 @@ extension ASCII.CaseConversion {
     ///
     /// ```swift
     /// let upperA: UInt8 = 0x41  // 'A'
-    /// let lowerA = upperA + ASCII.CaseConversion.offset  // 0x61 ('a')
+    /// let lowerA = upperA + ASCII.Case.Conversion.offset  // 0x61 ('a')
     ///
     /// let lowerZ: UInt8 = 0x7A  // 'z'
-    /// let upperZ = lowerZ - ASCII.CaseConversion.offset  // 0x5A ('Z')
+    /// let upperZ = lowerZ - ASCII.Case.Conversion.offset  // 0x5A ('Z')
     /// ```
     ///
     /// ## See Also
     ///
-    /// - ``GraphicCharacters/A``
-    /// - ``GraphicCharacters/a``
+    /// - ``Graphic/A``
+    /// - ``Graphic/a``
     public static let offset: UInt8 = 0x20
 }
 
-extension ASCII.CaseConversion {
-    /// Converts ASCII letter to specified case, returns unchanged if not an ASCII letter
+extension ASCII.Case.Conversion {
+    /// Converts ASCII letter to specified case, returns unchanged if not an ASCII letter.
     ///
     /// Per INCITS 4-1986 Table 7 (Graphic Characters), uppercase and lowercase ASCII letters
     /// are separated by exactly 0x20 (32 decimal). This function applies the appropriate
@@ -69,33 +69,35 @@ extension ASCII.CaseConversion {
     /// ## Usage
     ///
     /// ```swift
-    /// ASCII.CaseConversion.convert(0x61, to: .upper)  // 0x41 ("A")
-    /// ASCII.CaseConversion.convert(0x5A, to: .lower)  // 0x7A ("z")
-    /// ASCII.CaseConversion.convert(0x31, to: .upper)  // 0x31 ("1") - unchanged
+    /// ASCII.Case.Conversion.convert(.a, to: .upper)  // .A
+    /// ASCII.Case.Conversion.convert(.Z, to: .lower)  // .z
+    /// ASCII.Case.Conversion.convert(.`1`, to: .upper)  // .`1` - unchanged
     /// ```
     ///
     /// - Parameters:
-    ///   - byte: The ASCII byte to convert
+    ///   - code: The ASCII code to convert
     ///   - case: The target case (upper or lower)
-    /// - Returns: Converted byte if ASCII letter, unchanged otherwise
+    /// - Returns: Converted code if ASCII letter, unchanged otherwise
     @_transparent
-    public static func convert(_ byte: UInt8, to case: ASCII.Case) -> UInt8 {
+    public static func convert(_ code: ASCII.Code, to case: ASCII.Case) -> ASCII.Code {
+        let byte = code.underlying
         switch `case` {
         case .upper:
             // Check if lowercase (0x61-0x7A) using subtraction trick
             // (byte - 0x61) < 26 is true iff byte is in [0x61, 0x7A]
             let isLower = (byte &- 0x61) < 26
-            return isLower ? byte &- 0x20 : byte
+            return ASCII.Code(isLower ? byte &- 0x20 : byte)
+
         case .lower:
             // Check if uppercase (0x41-0x5A)
             let isUpper = (byte &- 0x41) < 26
-            return isUpper ? byte &+ 0x20 : byte
+            return ASCII.Code(isUpper ? byte &+ 0x20 : byte)
         }
     }
 }
 
 extension ASCII {
-    /// Converts ASCII letters in byte collection to specified case
+    /// Converts ASCII letters in byte collection to specified case.
     ///
     /// Non-ASCII bytes and non-letter bytes pass through unchanged.
     ///
@@ -122,30 +124,33 @@ extension ASCII {
     /// ASCII.convert(slice, to: .lower)
     /// ```
     @inlinable
-    public static func convert<C: Collection>(
-        _ bytes: C,
+    public static func convert<C: Swift.Collection>(
+        _ codes: C,
         to case: ASCII.Case
-    ) -> [UInt8] where C.Element == UInt8 {
-        var result = [UInt8]()
-        result.reserveCapacity(bytes.count)
+    ) -> [ASCII.Code] where C.Element == Self.Code {
+        var result = [Self.Code]()
+        result.reserveCapacity(codes.count)
 
         switch `case` {
         case .upper:
-            for byte in bytes {
+            for code in codes {
+                let byte = code.underlying
                 let isLower = (byte &- 0x61) < 26
-                result.append(isLower ? byte &- 0x20 : byte)
+                result.append(Self.Code(isLower ? byte &- 0x20 : byte))
             }
+
         case .lower:
-            for byte in bytes {
+            for code in codes {
+                let byte = code.underlying
                 let isUpper = (byte &- 0x41) < 26
-                result.append(isUpper ? byte &+ 0x20 : byte)
+                result.append(Self.Code(isUpper ? byte &+ 0x20 : byte))
             }
         }
 
         return result
     }
 
-    /// Converts ASCII letters in string to specified case
+    /// Converts ASCII letters in string to specified case.
     ///
     /// Non-ASCII characters and non-letter characters pass through unchanged.
     ///
@@ -156,6 +161,13 @@ extension ASCII {
     /// ```
     @inlinable
     public static func convert<S: StringProtocol>(_ string: S, to case: ASCII.Case) -> S {
-        S(decoding: convert(Array(string.utf8), to: `case`), as: UTF8.self)
+        // Use `unchecked:` — callers may pass strings whose UTF-8 contains
+        // bytes ≥ 0x80 (multibyte sequences). The case-conversion logic
+        // is a no-op for non-ASCII-letter bytes, so high bytes pass
+        // through unchanged. The throwing `ASCII.Code(_:)` would reject
+        // these, breaking the lossy round-trip this API has always
+        // provided.
+        let convertedCodes = convert(string.utf8.map { Self.Code(unchecked: Byte($0)) }, to: `case`)
+        return S(decoding: convertedCodes.map(\.underlying), as: UTF8.self)
     }
 }

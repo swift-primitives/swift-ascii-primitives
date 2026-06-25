@@ -5,7 +5,7 @@
 // Authoritative transformations from numeric values to ASCII digit bytes
 
 extension ASCII {
-    /// Numeric Value Serialization Operations
+    /// Numeric Value Serialization Operations.
     ///
     /// Authoritative implementations for converting numeric values to ASCII digit bytes.
     /// These are the inverse operations of `Parsing`.
@@ -26,7 +26,7 @@ extension ASCII {
 // MARK: - Single Digit Serialization
 
 extension ASCII.Serialization {
-    /// Converts a decimal digit value (0-9) to its ASCII byte
+    /// Converts a decimal digit value (0-9) to its ASCII byte.
     ///
     /// Inverse of `Parsing.digit(_:)`.
     ///
@@ -44,10 +44,10 @@ extension ASCII.Serialization {
     @inlinable
     public static func digit(_ value: UInt8) -> UInt8? {
         guard value <= 9 else { return nil }
-        return ASCII.GraphicCharacters.`0` + value
+        return ASCII.Character.Graphic.`0` + value
     }
 
-    /// Converts a hex digit value (0-15) to its uppercase ASCII byte
+    /// Converts a hex digit value (0-15) to its uppercase ASCII byte.
     ///
     /// - Parameter value: Numeric value 0-15
     /// - Returns: ASCII byte for '0'-'9' or 'A'-'F', or nil if value > 15
@@ -55,15 +55,17 @@ extension ASCII.Serialization {
     public static func hexDigitUppercase(_ value: UInt8) -> UInt8? {
         switch value {
         case 0...9:
-            return ASCII.GraphicCharacters.`0` + value
+            return ASCII.Character.Graphic.`0` + value
+
         case 10...15:
-            return ASCII.GraphicCharacters.A + value - 10
+            return ASCII.Character.Graphic.A + value - 10
+
         default:
             return nil
         }
     }
 
-    /// Converts a hex digit value (0-15) to its lowercase ASCII byte
+    /// Converts a hex digit value (0-15) to its lowercase ASCII byte.
     ///
     /// - Parameter value: Numeric value 0-15
     /// - Returns: ASCII byte for '0'-'9' or 'a'-'f', or nil if value > 15
@@ -71,9 +73,11 @@ extension ASCII.Serialization {
     public static func hexDigitLowercase(_ value: UInt8) -> UInt8? {
         switch value {
         case 0...9:
-            return ASCII.GraphicCharacters.`0` + value
+            return ASCII.Character.Graphic.`0` + value
+
         case 10...15:
-            return ASCII.GraphicCharacters.a + value - 10
+            return ASCII.Character.Graphic.a + value - 10
+
         default:
             return nil
         }
@@ -83,7 +87,7 @@ extension ASCII.Serialization {
 // MARK: - Integer Serialization
 
 extension ASCII.Serialization {
-    /// Serialize an unsigned integer to ASCII decimal bytes
+    /// Serialize an unsigned integer to ASCII decimal bytes.
     ///
     /// Writes the decimal representation directly to a byte buffer.
     /// This is the canonical ASCII serialization for unsigned integers.
@@ -103,42 +107,54 @@ extension ASCII.Serialization {
     public static func serializeDecimal<T: UnsignedInteger, Buffer: RangeReplaceableCollection>(
         _ value: T,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         if value == 0 {
-            buffer.append(ASCII.GraphicCharacters.`0`)
+            buffer.append(Byte(ASCII.Character.Graphic.`0`))
             return
         }
 
-        // Build digits in reverse using stack-allocated array
+        // Build digits in reverse using stack-allocated array. Internal storage
+        // stays UInt8 (arithmetic-domain digit calculation); bridge to Byte at
+        // the append boundary.
         // Max 20 digits for UInt64.max (18,446,744,073,709,551,615)
         var n = value
-        var digits: (
-            UInt8, UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8, UInt8
-        ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        var digits:
+            (
+                UInt8, UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8, UInt8
+            ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         var count = 0
 
-        withUnsafeMutableBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeMutableBytes(of: &digits) { ptr in
+            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
+            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
+            // swift-format-ignore: NeverForceUnwrap
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             while n > 0 {
-                base[count] = ASCII.GraphicCharacters.`0` + UInt8(n % 10)
+                unsafe (base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
                 n /= 10
                 count += 1
             }
         }
 
         // Append in correct order (reverse of how we built them)
-        withUnsafeBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
-            for i in stride(from: count - 1, through: 0, by: -1) {
-                buffer.append(base[i])
+        unsafe withUnsafeBytes(of: &digits) { ptr in
+            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
+            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
+            // swift-format-ignore: NeverForceUnwrap
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+            for i in (0..<count).reversed() {
+                unsafe buffer.append(Byte(base[i]))
             }
         }
     }
 
-    /// Serialize a signed integer to ASCII decimal bytes
+    // Stdlib-interop UInt8 forwarder for the unsigned `serializeDecimal`
+    // lives in `ASCII Primitives Standard Library Integration` per [API-BYTE-007].
+
+    /// Serialize a signed integer to ASCII decimal bytes.
     ///
     /// Writes the decimal representation directly to a byte buffer,
     /// including a leading '-' for negative values.
@@ -158,43 +174,55 @@ extension ASCII.Serialization {
     public static func serializeDecimal<T: SignedInteger, Buffer: RangeReplaceableCollection>(
         _ value: T,
         into buffer: inout Buffer
-    ) where Buffer.Element == UInt8 {
+    ) where Buffer.Element == Byte {
         if value == 0 {
-            buffer.append(ASCII.GraphicCharacters.`0`)
+            buffer.append(Byte(ASCII.Character.Graphic.`0`))
             return
         }
 
         var n = value
         if n < 0 {
-            buffer.append(ASCII.GraphicCharacters.hyphen)
+            buffer.append(Byte(ASCII.Character.Graphic.hyphen))
             n = -n
         }
 
-        // Build digits in reverse using stack-allocated array
+        // Build digits in reverse using stack-allocated array. Internal storage
+        // stays UInt8 (arithmetic-domain digit calculation); bridge to Byte at
+        // the append boundary.
         // Max 19 digits for Int64.max (9,223,372,036,854,775,807)
-        var digits: (
-            UInt8, UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8, UInt8,
-            UInt8, UInt8, UInt8, UInt8, UInt8
-        ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        var digits:
+            (
+                UInt8, UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8, UInt8,
+                UInt8, UInt8, UInt8, UInt8, UInt8
+            ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         var count = 0
 
-        withUnsafeMutableBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeMutableBytes(of: &digits) { ptr in
+            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
+            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
+            // swift-format-ignore: NeverForceUnwrap
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
             while n > 0 {
-                base[count] = ASCII.GraphicCharacters.`0` + UInt8(n % 10)
+                unsafe (base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
                 n /= 10
                 count += 1
             }
         }
 
         // Append in correct order (reverse of how we built them)
-        withUnsafeBytes(of: &digits) { ptr in
-            let base = ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
-            for i in stride(from: count - 1, through: 0, by: -1) {
-                buffer.append(base[i])
+        unsafe withUnsafeBytes(of: &digits) { ptr in
+            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
+            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
+            // swift-format-ignore: NeverForceUnwrap
+            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+            for i in (0..<count).reversed() {
+                unsafe buffer.append(Byte(base[i]))
             }
         }
     }
+
+    // Stdlib-interop UInt8 forwarder for the signed `serializeDecimal`
+    // lives in `ASCII Primitives Standard Library Integration` per [API-BYTE-007].
 }
