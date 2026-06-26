@@ -30,6 +30,6 @@ extension ASCII.Code {
     /// ```
     @inlinable
     public var hexValue: UInt8? {
-        ASCII.Parsing.hexDigit(underlying)
+        ASCII.Parsing.hexDigit(self)
     }
 }

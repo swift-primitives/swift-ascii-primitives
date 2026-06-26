@@ -89,7 +89,8 @@ extension ASCII.Parsing {
     /// - Parameter byte: The ASCII byte to parse as a hexadecimal digit
     /// - Returns: Numeric value 0-15 if byte is a hex digit, `nil` otherwise
     @inlinable
-    public static func hexDigit(_ byte: UInt8) -> UInt8? {
+    public static func hexDigit(_ code: ASCII.Code) -> UInt8? {
+        let byte = code.underlying
         switch byte {
         case ASCII.Character.Graphic.`0`...ASCII.Character.Graphic.`9`:
             return byte - ASCII.Character.Graphic.`0`

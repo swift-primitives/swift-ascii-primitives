@@ -52,13 +52,13 @@ extension ASCII.Serialization {
     /// - Parameter value: Numeric value 0-15
     /// - Returns: ASCII byte for '0'-'9' or 'A'-'F', or nil if value > 15
     @inlinable
-    public static func hexDigitUppercase(_ value: UInt8) -> UInt8? {
+    public static func hexDigitUppercase(_ value: UInt8) -> ASCII.Code? {
         switch value {
         case 0...9:
-            return ASCII.Character.Graphic.`0` + value
+            return ASCII.Code(ASCII.Character.Graphic.`0` + value)
 
         case 10...15:
-            return ASCII.Character.Graphic.A + value - 10
+            return ASCII.Code(ASCII.Character.Graphic.A + value - 10)
 
         default:
             return nil
@@ -70,13 +70,13 @@ extension ASCII.Serialization {
     /// - Parameter value: Numeric value 0-15
     /// - Returns: ASCII byte for '0'-'9' or 'a'-'f', or nil if value > 15
     @inlinable
-    public static func hexDigitLowercase(_ value: UInt8) -> UInt8? {
+    public static func hexDigitLowercase(_ value: UInt8) -> ASCII.Code? {
         switch value {
         case 0...9:
-            return ASCII.Character.Graphic.`0` + value
+            return ASCII.Code(ASCII.Character.Graphic.`0` + value)
 
         case 10...15:
-            return ASCII.Character.Graphic.a + value - 10
+            return ASCII.Code(ASCII.Character.Graphic.a + value - 10)
 
         default:
             return nil
