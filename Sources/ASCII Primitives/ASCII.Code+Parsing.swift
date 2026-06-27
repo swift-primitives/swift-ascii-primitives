@@ -13,7 +13,7 @@ extension ASCII.Code {
     /// ```
     @inlinable
     public var digitValue: UInt8? {
-        ASCII.Parsing.digit(underlying)
+        ASCII.Parsing.digit(self)
     }
 
     /// The hex digit value (0-15) if this code is an ASCII hex digit, nil otherwise.

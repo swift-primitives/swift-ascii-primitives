@@ -50,7 +50,8 @@ extension ASCII.Parsing {
     /// - Parameter byte: The ASCII byte to parse as a decimal digit
     /// - Returns: Numeric value 0-9 if byte is a digit, `nil` otherwise
     @inlinable
-    public static func digit(_ byte: UInt8) -> UInt8? {
+    public static func digit(_ code: ASCII.Code) -> UInt8? {
+        let byte = code.underlying
         guard ASCII.Classification.isDigit(byte) else { return nil }
         return byte - ASCII.Character.Graphic.`0`
     }
