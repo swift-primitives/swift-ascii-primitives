@@ -1,6 +1,6 @@
-// ASCII.Serialization+UInt8.swift
+// ASCII.Decimal+UInt8.swift
 //
-// Stdlib-interop UInt8 forwarders for `ASCII.Serialization`. Primary
+// Stdlib-interop UInt8 forwarders for `ASCII.Decimal.serialize`. Primary
 // byte-domain API lives in `ASCII Primitives` keyed on `Byte`; these
 // forwarders bridge stdlib callers carrying `RangeReplaceableCollection`
 // whose `Element == UInt8` (e.g. `[UInt8]`, `ContiguousArray<UInt8>`)
@@ -10,28 +10,28 @@
 public import ASCII_Primitives
 internal import Byte_Primitives
 
-extension ASCII.Serialization {
+extension ASCII.Decimal {
     /// Stdlib-interop forwarder: `Buffer.Element == UInt8`.
     @_disfavoredOverload
     @inlinable
-    public static func serializeDecimal<T: UnsignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<T: UnsignedInteger, Buffer: RangeReplaceableCollection>(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == UInt8 {
         var typed: [Byte] = []
-        Self.serializeDecimal(value, into: &typed)
+        Self.serialize(value, into: &typed)
         buffer.append(contentsOf: typed.underlying)
     }
 
     /// Stdlib-interop forwarder: `Buffer.Element == UInt8`.
     @_disfavoredOverload
     @inlinable
-    public static func serializeDecimal<T: SignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<T: SignedInteger, Buffer: RangeReplaceableCollection>(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == UInt8 {
         var typed: [Byte] = []
-        Self.serializeDecimal(value, into: &typed)
+        Self.serialize(value, into: &typed)
         buffer.append(contentsOf: typed.underlying)
     }
 }
