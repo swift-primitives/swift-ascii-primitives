@@ -79,14 +79,14 @@ extension Character.ASCII {
         return value.ascii.isWhitespace
     }
 
-    /// Tests if character is ASCII digit ('0'...'9').
+    /// Tests whether the character is an ASCII digit, 0 through 9.
     @_transparent
     public var isDigit: Bool {
         guard let value = UInt8(ascii: character) else { return false }
         return value.ascii.isDigit
     }
 
-    /// Tests if character is ASCII letter ('A'...'Z' or 'a'...'z').
+    /// Tests whether the character is an ASCII letter, uppercase or lowercase.
     @_transparent
     public var isLetter: Bool {
         guard let value = UInt8(ascii: character) else { return false }
@@ -107,7 +107,7 @@ extension Character.ASCII {
         return value.ascii.isHexDigit
     }
 
-    /// Tests if character is ASCII uppercase letter ('A'...'Z').
+    /// Tests whether the character is an ASCII uppercase letter, A through Z.
     @_transparent
     public var isUppercase: Bool {
         guard let value = UInt8(ascii: character) else { return false }

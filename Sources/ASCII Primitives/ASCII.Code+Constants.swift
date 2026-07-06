@@ -141,7 +141,7 @@ extension ASCII.Code {
 
 extension ASCII.Code {
 
-    /// EXCLAMATION POINT (0x21) - !.
+    /// EXCLAMATION POINT (0x21), the `!` character.
     public static var exclamationPoint: ASCII.Code { ASCII.Code(0x21) }
     /// Alias for ``exclamationPoint``.
     public static var exclamationMark: ASCII.Code { ASCII.Code(0x21) }

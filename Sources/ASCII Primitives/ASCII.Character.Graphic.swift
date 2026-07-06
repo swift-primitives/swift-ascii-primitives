@@ -76,7 +76,7 @@ extension ASCII.Character {
 }
 
 extension ASCII.Character.Graphic {
-    /// EXCLAMATION POINT (0x21) - !.
+    /// EXCLAMATION POINT (0x21), the `!` character.
     public static let exclamationPoint: UInt8 = 0x21
 
     /// QUOTATION MARK (0x22), the double-quote character.

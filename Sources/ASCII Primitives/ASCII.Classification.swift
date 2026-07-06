@@ -217,7 +217,7 @@ extension ASCII.Classification {
 
     // MARK: - Digit Classification
 
-    /// Tests if byte is ASCII digit ('0'...'9').
+    /// Tests whether the byte is an ASCII digit, 0 through 9.
     ///
     /// Returns `true` for bytes in the range 0x30-0x39.
     ///
@@ -261,7 +261,7 @@ extension ASCII.Classification {
 
     // MARK: - Letter Classification
 
-    /// Tests if byte is ASCII letter ('A'...'Z' or 'a'...'z').
+    /// Tests whether the byte is an ASCII letter, uppercase or lowercase.
     ///
     /// Returns `true` for uppercase letters (0x41-0x5A) or lowercase letters (0x61-0x7A).
     ///
@@ -281,7 +281,7 @@ extension ASCII.Classification {
         (byte &- 0x41) < 26 || (byte &- 0x61) < 26
     }
 
-    /// Tests if byte is ASCII uppercase letter ('A'...'Z').
+    /// Tests whether the byte is an ASCII uppercase letter, A through Z.
     ///
     /// Returns `true` for bytes in the range 0x41-0x5A.
     ///

@@ -20,14 +20,12 @@ extension ASCII {
 extension ASCII.Hexadecimal {
     /// Converts a hex digit value (0-15) to its ASCII code.
     ///
-    /// Inverse of `ASCII.Code.hexValue`. Digits 0-9 map to '0'-'9'
-    /// regardless of `case`; values 10-15 map to 'A'-'F' (`.upper`) or
-    /// 'a'-'f' (`.lower`).
+    /// Inverse of `ASCII.Code.hexValue`. Takes the numeric `value` (0-15) and
+    /// the letter `case` for digits 10-15 (default `.upper`). Digits 0-9 map
+    /// to '0'-'9' regardless of `case`; values 10-15 map to 'A'-'F' (`.upper`)
+    /// or 'a'-'f' (`.lower`).
     ///
-    /// - Parameters:
-    ///   - value: Numeric value 0-15
-    ///   - case: Letter case for digits 10-15 (default `.upper`)
-    /// - Returns: ASCII code for '0'-'9' or 'A'-'F' / 'a'-'f', or nil if value > 15
+    /// - Returns: ASCII code for '0'-'9' or 'A'-'F' / 'a'-'f', or nil for out-of-range input
     ///
     /// ## Example
     ///
