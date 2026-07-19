@@ -133,11 +133,17 @@ extension ASCII.Decimal {
             return
         }
 
-        var n = value
-        if n < 0 {
+        // WHY (F-002): extract via `.magnitude` rather than negating `value`.
+        // `T.min` (e.g. Int8.min == -128) has no positive `T` counterpart —
+        // `-value` overflow-traps for every fixed-width signed `T` at its
+        // minimum (confirmed: pre-fix regression run crashed with signal
+        // 5/SIGTRAP on Int8.min/Int.min/Int64.min/Int128.min). `T.Magnitude`
+        // is unsigned and can represent `abs(T.min)` exactly, so this path
+        // is total for every `T` value, including `T.min`.
+        if value < 0 {
             buffer.append(Byte(ASCII.Character.Graphic.hyphen))
-            n = -n
         }
+        var n = value.magnitude
 
         // Build digits in reverse using a scratch buffer. Internal storage
         // stays UInt8 (arithmetic-domain digit calculation); bridge to Byte at
@@ -147,14 +153,15 @@ extension ASCII.Decimal {
         // rather than a fixed literal — a fixed 20-slot buffer (sized for
         // Int64.min/.max) silently overflows for any wider FixedWidthInteger
         // (e.g. Int128, up to 39 digits). See the unsigned `serialize`
-        // overload above for the `T.bitWidth / 3 + 2` bound derivation.
+        // overload above for the `T.bitWidth / 3 + 2` bound derivation; it
+        // applies unchanged here since `T.Magnitude.bitWidth == T.bitWidth`.
         let capacity = T.bitWidth / 3 + 2
         var count = 0
 
         unsafe withUnsafeTemporaryAllocation(of: UInt8.self, capacity: capacity) { scratch in
             // WHY: `capacity` is a proven upper bound (see above) on the
-            // number of decimal digits `T` can ever require, so every
-            // `scratch[count]` write below stays in bounds.
+            // number of decimal digits `T.Magnitude` can ever require, so
+            // every `scratch[count]` write below stays in bounds.
             while n > 0 {
                 unsafe (scratch[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
                 n /= 10
