@@ -60,7 +60,7 @@ extension ASCII.Decimal {
     ///   - value: The unsigned integer to serialize
     ///   - buffer: The buffer to append ASCII bytes to
     @inlinable
-    public static func serialize<T: UnsignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<T: FixedWidthInteger & UnsignedInteger, Buffer: RangeReplaceableCollection>(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {
@@ -69,40 +69,37 @@ extension ASCII.Decimal {
             return
         }
 
-        // Build digits in reverse using stack-allocated array. Internal storage
+        // Build digits in reverse using a scratch buffer. Internal storage
         // stays UInt8 (arithmetic-domain digit calculation); bridge to Byte at
         // the append boundary.
-        // Max 20 digits for UInt64.max (18,446,744,073,709,551,615)
+        //
+        // WHY (F-001): the scratch capacity is derived from `T.bitWidth`
+        // rather than a fixed literal — a fixed 20-slot buffer (sized for
+        // UInt64.max) silently overflows for any wider FixedWidthInteger
+        // (e.g. UInt128, 39 digits). `T.bitWidth / 3 + 2` is a provable
+        // upper bound on decimal digit count for ANY bit width: the exact
+        // digit count of a bit-width-`n` unsigned max is
+        // `floor(n * log10(2)) + 1`, and `log10(2) ≈ 0.30103 < 1/3`, so
+        // `floor(n/3) + 2 > n * log10(2) + 1 ≥ digitCount(n)` for every
+        // `n >= 0`. This holds independent of which FixedWidthInteger `T`
+        // is instantiated with, so no future wider integer type can
+        // reintroduce the overflow.
         var n = value
-        var digits:
-            (
-                UInt8, UInt8, UInt8, UInt8, UInt8,
-                UInt8, UInt8, UInt8, UInt8, UInt8,
-                UInt8, UInt8, UInt8, UInt8, UInt8,
-                UInt8, UInt8, UInt8, UInt8, UInt8
-            ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        let capacity = T.bitWidth / 3 + 2
         var count = 0
 
-        unsafe withUnsafeMutableBytes(of: &digits) { ptr in
-            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
-            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
-            // swift-format-ignore: NeverForceUnwrap
-            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeTemporaryAllocation(of: UInt8.self, capacity: capacity) { scratch in
+            // WHY: `capacity` is a proven upper bound (see above) on the
+            // number of decimal digits `T` can ever require, so every
+            // `scratch[count]` write below stays in bounds.
             while n > 0 {
-                unsafe (base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
+                unsafe (scratch[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
                 n /= 10
                 count += 1
             }
-        }
-
-        // Append in correct order (reverse of how we built them)
-        unsafe withUnsafeBytes(of: &digits) { ptr in
-            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
-            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
-            // swift-format-ignore: NeverForceUnwrap
-            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+            // Append in correct order (reverse of how we built them).
             for i in (0..<count).reversed() {
-                unsafe buffer.append(Byte(base[i]))
+                unsafe buffer.append(Byte(scratch[i]))
             }
         }
     }
@@ -127,7 +124,7 @@ extension ASCII.Decimal {
     ///   - value: The signed integer to serialize
     ///   - buffer: The buffer to append ASCII bytes to
     @inlinable
-    public static func serialize<T: SignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<T: FixedWidthInteger & SignedInteger, Buffer: RangeReplaceableCollection>(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {
@@ -142,39 +139,30 @@ extension ASCII.Decimal {
             n = -n
         }
 
-        // Build digits in reverse using stack-allocated array. Internal storage
+        // Build digits in reverse using a scratch buffer. Internal storage
         // stays UInt8 (arithmetic-domain digit calculation); bridge to Byte at
         // the append boundary.
-        // Max 19 digits for Int64.max (9,223,372,036,854,775,807)
-        var digits:
-            (
-                UInt8, UInt8, UInt8, UInt8, UInt8,
-                UInt8, UInt8, UInt8, UInt8, UInt8,
-                UInt8, UInt8, UInt8, UInt8, UInt8,
-                UInt8, UInt8, UInt8, UInt8, UInt8
-            ) = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        //
+        // WHY (F-001): the scratch capacity is derived from `T.bitWidth`
+        // rather than a fixed literal — a fixed 20-slot buffer (sized for
+        // Int64.min/.max) silently overflows for any wider FixedWidthInteger
+        // (e.g. Int128, up to 39 digits). See the unsigned `serialize`
+        // overload above for the `T.bitWidth / 3 + 2` bound derivation.
+        let capacity = T.bitWidth / 3 + 2
         var count = 0
 
-        unsafe withUnsafeMutableBytes(of: &digits) { ptr in
-            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
-            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
-            // swift-format-ignore: NeverForceUnwrap
-            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+        unsafe withUnsafeTemporaryAllocation(of: UInt8.self, capacity: capacity) { scratch in
+            // WHY: `capacity` is a proven upper bound (see above) on the
+            // number of decimal digits `T` can ever require, so every
+            // `scratch[count]` write below stays in bounds.
             while n > 0 {
-                unsafe (base[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
+                unsafe (scratch[count] = ASCII.Character.Graphic.`0` + UInt8(n % 10))
                 n /= 10
                 count += 1
             }
-        }
-
-        // Append in correct order (reverse of how we built them)
-        unsafe withUnsafeBytes(of: &digits) { ptr in
-            // WHY: `digits` is a 20-element tuple, so its byte buffer is never
-            // empty; a non-empty raw buffer always has a non-nil `baseAddress`.
-            // swift-format-ignore: NeverForceUnwrap
-            let base = unsafe ptr.baseAddress!.assumingMemoryBound(to: UInt8.self)
+            // Append in correct order (reverse of how we built them).
             for i in (0..<count).reversed() {
-                unsafe buffer.append(Byte(base[i]))
+                unsafe buffer.append(Byte(scratch[i]))
             }
         }
     }

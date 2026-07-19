@@ -52,6 +52,13 @@ let package = Package(
             ]
         ),
         .testTarget(
+            name: "ASCII Primitives Tests",
+            dependencies: [
+                "ASCII Primitives",
+                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+            ]
+        ),
+        .testTarget(
             name: "ASCII Primitives Standard Library Integration Tests",
             dependencies: [
                 "ASCII Primitives",
