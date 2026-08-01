@@ -61,7 +61,7 @@ extension ASCII.Classification {
         var table = [UInt8](repeating: 0, count: 128)
 
         // Control characters (0x00-0x1F)
-        for i in 0x00...0x1F {
+        (0x00...0x1F).forEach { i in
             table[i] = _control
         }
         // DEL (0x7F)
@@ -74,32 +74,32 @@ extension ASCII.Classification {
         table[0x20] = _whitespace | _printable  // SP
 
         // Printable characters (0x21-0x7E)
-        for i in 0x21...0x7E {
+        (0x21...0x7E).forEach { i in
             table[i] |= _printable
         }
 
         // Digits (0x30-0x39)
-        for i in 0x30...0x39 {
+        (0x30...0x39).forEach { i in
             table[i] |= _digit
         }
 
         // Uppercase letters (0x41-0x5A)
-        for i in 0x41...0x5A {
+        (0x41...0x5A).forEach { i in
             table[i] |= _upper
         }
 
         // Lowercase letters (0x61-0x7A)
-        for i in 0x61...0x7A {
+        (0x61...0x7A).forEach { i in
             table[i] |= _lower
         }
 
         // Hex digits uppercase (A-F: 0x41-0x46)
-        for i in 0x41...0x46 {
+        (0x41...0x46).forEach { i in
             table[i] |= _hexUpper
         }
 
         // Hex digits lowercase (a-f: 0x61-0x66)
-        for i in 0x61...0x66 {
+        (0x61...0x66).forEach { i in
             table[i] |= _hexLower
         }
 

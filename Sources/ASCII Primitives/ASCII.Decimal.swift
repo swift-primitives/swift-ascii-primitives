@@ -98,7 +98,7 @@ extension ASCII.Decimal {
                 count += 1
             }
             // Append in correct order (reverse of how we built them).
-            for i in (0..<count).reversed() {
+            (0..<count).reversed().forEach { i in
                 unsafe buffer.append(Byte(scratch[i]))
             }
         }
@@ -168,7 +168,7 @@ extension ASCII.Decimal {
                 count += 1
             }
             // Append in correct order (reverse of how we built them).
-            for i in (0..<count).reversed() {
+            (0..<count).reversed().forEach { i in
                 unsafe buffer.append(Byte(scratch[i]))
             }
         }
