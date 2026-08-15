@@ -345,56 +345,82 @@ extension ASCII.Namespace {
 
 extension ASCII.Namespace {
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER A (0x41).
     @inlinable public static var A: Owner { Owner(0x41 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER B (0x42).
     @inlinable public static var B: Owner { Owner(0x42 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER C (0x43).
     @inlinable public static var C: Owner { Owner(0x43 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER D (0x44).
     @inlinable public static var D: Owner { Owner(0x44 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER E (0x45).
     @inlinable public static var E: Owner { Owner(0x45 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER F (0x46).
     @inlinable public static var F: Owner { Owner(0x46 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER G (0x47).
     @inlinable public static var G: Owner { Owner(0x47 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER H (0x48).
     @inlinable public static var H: Owner { Owner(0x48 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER I (0x49).
     @inlinable public static var I: Owner { Owner(0x49 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER J (0x4A).
     @inlinable public static var J: Owner { Owner(0x4A as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER K (0x4B).
     @inlinable public static var K: Owner { Owner(0x4B as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER L (0x4C).
     @inlinable public static var L: Owner { Owner(0x4C as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER M (0x4D).
     @inlinable public static var M: Owner { Owner(0x4D as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER N (0x4E).
     @inlinable public static var N: Owner { Owner(0x4E as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER O (0x4F).
     @inlinable public static var O: Owner { Owner(0x4F as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER P (0x50).
     @inlinable public static var P: Owner { Owner(0x50 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Q (0x51).
     @inlinable public static var Q: Owner { Owner(0x51 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER R (0x52).
     @inlinable public static var R: Owner { Owner(0x52 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER S (0x53).
     @inlinable public static var S: Owner { Owner(0x53 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER T (0x54).
     @inlinable public static var T: Owner { Owner(0x54 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER U (0x55).
     @inlinable public static var U: Owner { Owner(0x55 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER V (0x56).
     @inlinable public static var V: Owner { Owner(0x56 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER W (0x57).
     @inlinable public static var W: Owner { Owner(0x57 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER X (0x58).
     @inlinable public static var X: Owner { Owner(0x58 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Y (0x59).
     @inlinable public static var Y: Owner { Owner(0x59 as UInt8) }
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Z (0x5A).
     @inlinable public static var Z: Owner { Owner(0x5A as UInt8) }
 }
