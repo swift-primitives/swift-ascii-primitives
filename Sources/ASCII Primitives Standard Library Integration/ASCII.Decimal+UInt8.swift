@@ -14,7 +14,10 @@ extension ASCII.Decimal {
     /// Stdlib-interop forwarder: `Buffer.Element == UInt8`.
     @_disfavoredOverload
     @inlinable
-    public static func serialize<T: FixedWidthInteger & UnsignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<
+        T: FixedWidthInteger & UnsignedInteger,
+        Buffer: RangeReplaceableCollection
+    >(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == UInt8 {
@@ -26,7 +29,10 @@ extension ASCII.Decimal {
     /// Stdlib-interop forwarder: `Buffer.Element == UInt8`.
     @_disfavoredOverload
     @inlinable
-    public static func serialize<T: FixedWidthInteger & SignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<
+        T: FixedWidthInteger & SignedInteger,
+        Buffer: RangeReplaceableCollection
+    >(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == UInt8 {

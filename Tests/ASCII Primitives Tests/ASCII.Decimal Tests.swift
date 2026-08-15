@@ -27,7 +27,9 @@ extension ASCII.Decimal.Tests.`Edge Case` {
     // cases pin the boundary the old fixed-size buffer could not cover.
 
     @Test
-    func `serialize UInt128 value with 21 decimal digits does not overflow the legacy 20 byte buffer`() {
+    func
+        `serialize UInt128 value with 21 decimal digits does not overflow the legacy 20 byte buffer`()
+    {
         // 10^20 is the first UInt128 magnitude requiring 21 digits — one
         // past the old tuple's exact 20-slot capacity.
         let value: UInt128 = 100_000_000_000_000_000_000

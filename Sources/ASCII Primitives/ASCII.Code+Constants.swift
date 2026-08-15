@@ -278,81 +278,107 @@ extension ASCII.Code {
 
 extension ASCII.Code {
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER A (0x41).
     public static var A: ASCII.Code { ASCII.Code(0x41) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER B (0x42).
     public static var B: ASCII.Code { ASCII.Code(0x42) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER C (0x43).
     public static var C: ASCII.Code { ASCII.Code(0x43) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER D (0x44).
     public static var D: ASCII.Code { ASCII.Code(0x44) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER E (0x45).
     public static var E: ASCII.Code { ASCII.Code(0x45) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER F (0x46).
     public static var F: ASCII.Code { ASCII.Code(0x46) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER G (0x47).
     public static var G: ASCII.Code { ASCII.Code(0x47) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER H (0x48).
     public static var H: ASCII.Code { ASCII.Code(0x48) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER I (0x49).
     public static var I: ASCII.Code { ASCII.Code(0x49) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER J (0x4A).
     public static var J: ASCII.Code { ASCII.Code(0x4A) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER K (0x4B).
     public static var K: ASCII.Code { ASCII.Code(0x4B) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER L (0x4C).
     public static var L: ASCII.Code { ASCII.Code(0x4C) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER M (0x4D).
     public static var M: ASCII.Code { ASCII.Code(0x4D) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER N (0x4E).
     public static var N: ASCII.Code { ASCII.Code(0x4E) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER O (0x4F).
     public static var O: ASCII.Code { ASCII.Code(0x4F) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER P (0x50).
     public static var P: ASCII.Code { ASCII.Code(0x50) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Q (0x51).
     public static var Q: ASCII.Code { ASCII.Code(0x51) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER R (0x52).
     public static var R: ASCII.Code { ASCII.Code(0x52) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER S (0x53).
     public static var S: ASCII.Code { ASCII.Code(0x53) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER T (0x54).
     public static var T: ASCII.Code { ASCII.Code(0x54) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER U (0x55).
     public static var U: ASCII.Code { ASCII.Code(0x55) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER V (0x56).
     public static var V: ASCII.Code { ASCII.Code(0x56) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER W (0x57).
     public static var W: ASCII.Code { ASCII.Code(0x57) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER X (0x58).
     public static var X: ASCII.Code { ASCII.Code(0x58) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Y (0x59).
     public static var Y: ASCII.Code { ASCII.Code(0x59) }
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Z (0x5A).
     public static var Z: ASCII.Code { ASCII.Code(0x5A) }
 }

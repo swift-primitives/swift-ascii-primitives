@@ -60,7 +60,10 @@ extension ASCII.Decimal {
     ///   - value: The unsigned integer to serialize
     ///   - buffer: The buffer to append ASCII bytes to
     @inlinable
-    public static func serialize<T: FixedWidthInteger & UnsignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<
+        T: FixedWidthInteger & UnsignedInteger,
+        Buffer: RangeReplaceableCollection
+    >(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {
@@ -124,7 +127,10 @@ extension ASCII.Decimal {
     ///   - value: The signed integer to serialize
     ///   - buffer: The buffer to append ASCII bytes to
     @inlinable
-    public static func serialize<T: FixedWidthInteger & SignedInteger, Buffer: RangeReplaceableCollection>(
+    public static func serialize<
+        T: FixedWidthInteger & SignedInteger,
+        Buffer: RangeReplaceableCollection
+    >(
         _ value: T,
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {

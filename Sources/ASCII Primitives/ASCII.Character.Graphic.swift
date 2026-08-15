@@ -180,81 +180,107 @@ extension ASCII.Character.Graphic {
 }
 
 extension ASCII.Character.Graphic {
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER A (0x41).
     public static let A: UInt8 = 0x41
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER B (0x42).
     public static let B: UInt8 = 0x42
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER C (0x43).
     public static let C: UInt8 = 0x43
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER D (0x44).
     public static let D: UInt8 = 0x44
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER E (0x45).
     public static let E: UInt8 = 0x45
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER F (0x46).
     public static let F: UInt8 = 0x46
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER G (0x47).
     public static let G: UInt8 = 0x47
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER H (0x48).
     public static let H: UInt8 = 0x48
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER I (0x49).
     public static let I: UInt8 = 0x49
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER J (0x4A).
     public static let J: UInt8 = 0x4A
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER K (0x4B).
     public static let K: UInt8 = 0x4B
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER L (0x4C).
     public static let L: UInt8 = 0x4C
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER M (0x4D).
     public static let M: UInt8 = 0x4D
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER N (0x4E).
     public static let N: UInt8 = 0x4E
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER O (0x4F).
     public static let O: UInt8 = 0x4F
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER P (0x50).
     public static let P: UInt8 = 0x50
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Q (0x51).
     public static let Q: UInt8 = 0x51
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER R (0x52).
     public static let R: UInt8 = 0x52
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER S (0x53).
     public static let S: UInt8 = 0x53
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER T (0x54).
     public static let T: UInt8 = 0x54
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER U (0x55).
     public static let U: UInt8 = 0x55
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER V (0x56).
     public static let V: UInt8 = 0x56
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER W (0x57).
     public static let W: UInt8 = 0x57
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER X (0x58).
     public static let X: UInt8 = 0x58
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Y (0x59).
     public static let Y: UInt8 = 0x59
 
+    // swift-format-ignore: AlwaysUseLowerCamelCase
     /// CAPITAL LETTER Z (0x5A).
     public static let Z: UInt8 = 0x5A
 }
