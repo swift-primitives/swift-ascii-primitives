@@ -91,7 +91,7 @@ extension ASCII.Decimal {
         let capacity = T.bitWidth / 3 + 2
         var count = 0
 
-        unsafe withUnsafeTemporaryAllocation(of: UInt8.self, capacity: capacity) { scratch in
+        withUnsafeTemporaryAllocation(of: UInt8.self, capacity: capacity) { scratch in
             // WHY: `capacity` is a proven upper bound (see above) on the
             // number of decimal digits `T` can ever require, so every
             // `scratch[count]` write below stays in bounds.
@@ -164,7 +164,7 @@ extension ASCII.Decimal {
         let capacity = T.bitWidth / 3 + 2
         var count = 0
 
-        unsafe withUnsafeTemporaryAllocation(of: UInt8.self, capacity: capacity) { scratch in
+        withUnsafeTemporaryAllocation(of: UInt8.self, capacity: capacity) { scratch in
             // WHY: `capacity` is a proven upper bound (see above) on the
             // number of decimal digits `T.Magnitude` can ever require, so
             // every `scratch[count]` write below stays in bounds.

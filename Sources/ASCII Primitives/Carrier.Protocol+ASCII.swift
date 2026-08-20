@@ -38,7 +38,7 @@
 // etc.).
 
 public import Byte_Primitives
-public import Carrier_Primitives
+import Carrier_Primitives
 
 extension Carrier.`Protocol` where Underlying == UInt8 {
 
