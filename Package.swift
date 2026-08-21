@@ -2,17 +2,6 @@
 
 import PackageDescription
 
-// ASCII Primitives - Tier 2
-//
-// ASCII character definitions and operations with Byte.Protocol conformance.
-// Foundation for all ASCII-related processing across the Swift Institute packages.
-//
-// Per INCITS 4-1986 (R2022): 7-Bit American Standard Code for Information Interchange.
-//
-// ASCII.Code conforms to Byte.`Protocol` (the per-domain capability marker from
-// swift-byte-primitives). This pulls swift-byte-primitives + swift-carrier-primitives
-// + swift-tagged-primitives transitively, moving this package from Tier 0 to Tier 2.
-
 let package = Package(
     name: "swift-ascii-primitives",
     platforms: [
