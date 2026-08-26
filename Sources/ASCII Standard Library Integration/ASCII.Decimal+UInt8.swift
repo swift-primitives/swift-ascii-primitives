@@ -1,5 +1,5 @@
-public import ASCII_Primitives
-internal import Byte_Primitives
+public import ASCII
+internal import Byte
 
 extension ASCII.Decimal {
 

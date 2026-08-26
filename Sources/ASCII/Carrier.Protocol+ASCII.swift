@@ -1,5 +1,5 @@
-public import Byte_Primitives
-import Carrier_Primitives
+public import Byte
+import Carrier
 
 extension Carrier.`Protocol` where Underlying == UInt8 {
 
