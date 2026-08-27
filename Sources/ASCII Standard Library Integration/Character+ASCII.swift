@@ -1,3 +1,5 @@
+public import ASCII
+
 extension Character {
 
     public static var ascii: ASCII.Type {

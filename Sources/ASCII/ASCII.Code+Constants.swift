@@ -1,4 +1,3 @@
-internal import Byte
 
 extension ASCII.Code {
 
