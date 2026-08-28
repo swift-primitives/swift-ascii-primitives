@@ -23,7 +23,7 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-byte.git",
+            url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         )
     ],
@@ -41,7 +41,7 @@ let package = Package(
         .target(
             name: "ASCII Standard Library Integration",
             dependencies: [
-                "ASCII",
+                .target(name: "ASCII"),
                 .product(name: "Byte", package: "swift-byte"),
                 .product(
                     name: "Byte Standard Library Integration",
@@ -52,15 +52,15 @@ let package = Package(
         .testTarget(
             name: "ASCII Tests",
             dependencies: [
-                "ASCII",
+                .target(name: "ASCII"),
                 .product(name: "Byte", package: "swift-byte"),
             ]
         ),
         .testTarget(
             name: "ASCII Standard Library Integration Tests",
             dependencies: [
-                "ASCII",
-                "ASCII Standard Library Integration",
+                .target(name: "ASCII"),
+                .target(name: "ASCII Standard Library Integration"),
             ]
         ),
     ],

@@ -1,4 +1,4 @@
-# ASCII
+# ASCII Primitives
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -49,7 +49,7 @@ ASCII.Serialization.serializeDecimal(42, into: &buffer)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-ascii.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-ascii.git", branch: "main")
 ]
 ```
 
@@ -72,7 +72,7 @@ Two library products; depends only on swift-byte.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `ASCII` | `Sources/ASCII/` | The `ASCII` namespace, the typed `ASCII.Code` carrier (with `Byte.Protocol` conformance), the full INCITS 4-1986 constant set, and `Classification` / `Case.Conversion` / `Parsing` / `Serialization` operations keyed on `ASCII.Code`. |
+| `ASCII Primitives` | `Sources/ASCII Primitives/` | The `ASCII` namespace, the typed `ASCII.Code` carrier (with `Byte.Protocol` conformance), the full INCITS 4-1986 constant set, and `Classification` / `Case.Conversion` / `Parsing` / `Serialization` operations keyed on `ASCII.Code`. |
 | `ASCII Standard Library Integration` | `Sources/ASCII Standard Library Integration/` | `Sequence<UInt8>` forwarders for the classification, case-conversion, and serialization operations, bridging raw byte buffers to the `ASCII.Code` API. |
 
 Foundation-free.
