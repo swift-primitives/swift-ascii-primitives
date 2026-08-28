@@ -1,7 +1,7 @@
 extension ASCII {
 
     @frozen
-    public struct Code: Sendable, Hashable {
+    public struct Code: Sendable {
 
         public let underlying: UInt8
 

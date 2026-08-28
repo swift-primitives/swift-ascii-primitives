@@ -1,5 +1,3 @@
-public import ASCII
-
 extension UInt8 {
 
     public static var ascii: ASCII.Code.Type {

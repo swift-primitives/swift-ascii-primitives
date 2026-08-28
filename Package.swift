@@ -20,31 +20,41 @@ let package = Package(
             name: "ASCII Standard Library Integration",
             targets: ["ASCII Standard Library Integration"]
         ),
-        .library(
-            name: "ASCII Apple Foundation Integration",
-            targets: ["ASCII Apple Foundation Integration"]
-        ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/swift-molecules/swift-byte.git",
+            branch: "main"
+        )
+    ],
     targets: [
         .target(
             name: "ASCII",
-            dependencies: []
+            dependencies: [
+                .product(name: "Byte", package: "swift-byte"),
+                .product(
+                    name: "Byte Standard Library Integration",
+                    package: "swift-byte"
+                ),
+            ]
         ),
         .target(
             name: "ASCII Standard Library Integration",
-            dependencies: ["ASCII"]
-        ),
-        .target(
-            name: "ASCII Apple Foundation Integration",
             dependencies: [
                 "ASCII",
-                "ASCII Standard Library Integration",
+                .product(name: "Byte", package: "swift-byte"),
+                .product(
+                    name: "Byte Standard Library Integration",
+                    package: "swift-byte"
+                ),
             ]
         ),
         .testTarget(
             name: "ASCII Tests",
-            dependencies: ["ASCII"]
+            dependencies: [
+                "ASCII",
+                .product(name: "Byte", package: "swift-byte"),
+            ]
         ),
         .testTarget(
             name: "ASCII Standard Library Integration Tests",
