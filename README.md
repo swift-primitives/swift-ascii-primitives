@@ -11,7 +11,7 @@ ASCII types for Swift — a typed `ASCII.Code` carrier, the full INCITS 4-1986 c
 `ASCII.Code` is a typed wrapper over a 7-bit code value (`0x00`–`0x7F`), and the `.ascii` accessor surfaces ASCII operations and constants on `UInt8` itself. Classification and serialization work on `ASCII.Code` directly; the Standard Library Integration product adds `Sequence<UInt8>` forwarders so raw byte buffers (network frames, file reads) flow through unchanged.
 
 ```swift
-import ASCII_Primitives
+import ASCII
 
 // Classify a byte through the `.ascii` accessor.
 let byte: UInt8 = 0x41
@@ -28,8 +28,8 @@ code.isLowercase           // true
 ```
 
 ```swift
-import ASCII_Primitives
-import ASCII_Primitives_Standard_Library_Integration
+import ASCII
+import ASCII_Standard_Library_Integration
 
 // Classify whole byte sequences.
 ASCII.Classification.isAllDigits(Array("0123".utf8))    // true
@@ -41,7 +41,7 @@ ASCII.Serialization.serializeDecimal(42, into: &buffer)
 // buffer == [0x34, 0x32]  // "42"
 ```
 
-`ASCII` is a pure namespace enum; its nested `Character.Control`, `Character.Graphic`, and `SPACE` types mirror the standard's structure. `ASCII.Code` conforms to `Byte.Protocol` from swift-byte-primitives, making it a peer byte-domain type alongside `Byte`.
+`ASCII` is a pure namespace enum; its nested `Character.Control`, `Character.Graphic`, and `SPACE` types mirror the standard's structure. `ASCII.Code` conforms to `Byte.Protocol` from swift-byte, making it a peer byte-domain type alongside `Byte`.
 
 ---
 
@@ -49,7 +49,7 @@ ASCII.Serialization.serializeDecimal(42, into: &buffer)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-ascii-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-ascii.git", branch: "main")
 ]
 ```
 
@@ -57,7 +57,7 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "ASCII Primitives", package: "swift-ascii-primitives"),
+        .product(name: "ASCII", package: "swift-ascii"),
     ]
 )
 ```
@@ -68,12 +68,12 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Two library products; depends only on swift-byte-primitives.
+Two library products; depends only on swift-byte.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
 | `ASCII Primitives` | `Sources/ASCII Primitives/` | The `ASCII` namespace, the typed `ASCII.Code` carrier (with `Byte.Protocol` conformance), the full INCITS 4-1986 constant set, and `Classification` / `Case.Conversion` / `Parsing` / `Serialization` operations keyed on `ASCII.Code`. |
-| `ASCII Primitives Standard Library Integration` | `Sources/ASCII Primitives Standard Library Integration/` | `Sequence<UInt8>` forwarders for the classification, case-conversion, and serialization operations, bridging raw byte buffers to the `ASCII.Code` API. |
+| `ASCII Standard Library Integration` | `Sources/ASCII Standard Library Integration/` | `Sequence<UInt8>` forwarders for the classification, case-conversion, and serialization operations, bridging raw byte buffers to the `ASCII.Code` API. |
 
 Foundation-free.
 

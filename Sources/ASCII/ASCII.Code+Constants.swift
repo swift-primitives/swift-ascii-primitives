@@ -1,4 +1,4 @@
-internal import Byte_Primitives
+internal import Byte
 
 extension ASCII.Code {
 

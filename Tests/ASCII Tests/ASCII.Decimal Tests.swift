@@ -1,5 +1,5 @@
-import ASCII_Primitives
-import Byte_Primitives
+import ASCII
+import Byte
 import Testing
 
 extension ASCII.Decimal {

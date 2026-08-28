@@ -1,5 +1,5 @@
-import ASCII_Primitives
-import ASCII_Primitives_Standard_Library_Integration
+import ASCII
+import ASCII_Standard_Library_Integration
 import Testing
 
 @Suite("ASCII Decimal UInt8 forwarders")

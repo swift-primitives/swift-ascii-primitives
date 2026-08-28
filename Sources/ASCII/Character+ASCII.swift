@@ -45,7 +45,7 @@ extension Character.ASCII {
     }
 
     @inlinable
-    public func callAsFunction(case: ASCII_Primitives.ASCII.Case) -> Character {
+    public func callAsFunction(case: ASCII.ASCII.Case) -> Character {
         guard let byte = UInt8(ascii: character) else { return character }
         let converted = ASCII.Case.Conversion.convert(ASCII.Code(byte), to: `case`)
         return Character(UnicodeScalar(converted.underlying))

@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-ascii-primitives",
+    name: "swift-ascii",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -13,54 +13,54 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "ASCII Primitives",
-            targets: ["ASCII Primitives"]
+            name: "ASCII",
+            targets: ["ASCII"]
         ),
         .library(
-            name: "ASCII Primitives Standard Library Integration",
-            targets: ["ASCII Primitives Standard Library Integration"]
+            name: "ASCII Standard Library Integration",
+            targets: ["ASCII Standard Library Integration"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-byte-primitives.git",
+            url: "https://github.com/swift-atoms/swift-byte.git",
             branch: "main"
         )
     ],
     targets: [
         .target(
-            name: "ASCII Primitives",
+            name: "ASCII",
             dependencies: [
-                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+                .product(name: "Byte", package: "swift-byte"),
                 .product(
-                    name: "Byte Primitives Standard Library Integration",
-                    package: "swift-byte-primitives"
+                    name: "Byte Standard Library Integration",
+                    package: "swift-byte"
                 ),
             ]
         ),
         .target(
-            name: "ASCII Primitives Standard Library Integration",
+            name: "ASCII Standard Library Integration",
             dependencies: [
-                "ASCII Primitives",
-                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+                .target(name: "ASCII"),
+                .product(name: "Byte", package: "swift-byte"),
                 .product(
-                    name: "Byte Primitives Standard Library Integration",
-                    package: "swift-byte-primitives"
+                    name: "Byte Standard Library Integration",
+                    package: "swift-byte"
                 ),
             ]
         ),
         .testTarget(
-            name: "ASCII Primitives Tests",
+            name: "ASCII Tests",
             dependencies: [
-                "ASCII Primitives",
-                .product(name: "Byte Primitives", package: "swift-byte-primitives"),
+                .target(name: "ASCII"),
+                .product(name: "Byte", package: "swift-byte"),
             ]
         ),
         .testTarget(
-            name: "ASCII Primitives Standard Library Integration Tests",
+            name: "ASCII Standard Library Integration Tests",
             dependencies: [
-                "ASCII Primitives",
-                "ASCII Primitives Standard Library Integration",
+                .target(name: "ASCII"),
+                .target(name: "ASCII Standard Library Integration"),
             ]
         ),
     ],
