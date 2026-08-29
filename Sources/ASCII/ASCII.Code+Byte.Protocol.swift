@@ -1,4 +1,5 @@
 public import Byte
+public import Byte_Protocol
 
 extension ASCII.Code: Byte.`Protocol` {
 
@@ -42,9 +43,29 @@ extension ASCII.Code: ExpressibleByIntegerLiteral {
     }
 }
 
-extension ASCII.Code: Equatable {}
-extension ASCII.Code: Hashable {}
-extension ASCII.Code: Comparable {}
+extension ASCII.Code: Equatable {
+
+    @inlinable
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.underlying == rhs.underlying
+    }
+}
+
+extension ASCII.Code: Hashable {
+
+    @inlinable
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(underlying)
+    }
+}
+
+extension ASCII.Code: Comparable {
+
+    @inlinable
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.underlying < rhs.underlying
+    }
+}
 
 extension ASCII.Code {
 
