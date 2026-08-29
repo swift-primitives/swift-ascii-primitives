@@ -1,4 +1,4 @@
-public import Byte
+import Byte
 import Carrier
 
 extension Carrier.`Protocol` where Underlying == UInt8 {
