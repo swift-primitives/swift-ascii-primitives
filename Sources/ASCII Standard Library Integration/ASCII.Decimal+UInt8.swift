@@ -1,5 +1,6 @@
 public import ASCII
 internal import Byte
+public import Byte_Protocol
 
 extension ASCII.Decimal {
 

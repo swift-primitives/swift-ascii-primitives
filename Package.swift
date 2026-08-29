@@ -32,6 +32,7 @@ let package = Package(
             name: "ASCII",
             dependencies: [
                 .product(name: "Byte", package: "swift-byte"),
+                .product(name: "Byte Protocol", package: "swift-byte"),
                 .product(
                     name: "Byte Standard Library Integration",
                     package: "swift-byte"
@@ -43,6 +44,7 @@ let package = Package(
             dependencies: [
                 .target(name: "ASCII"),
                 .product(name: "Byte", package: "swift-byte"),
+                .product(name: "Byte Protocol", package: "swift-byte"),
                 .product(
                     name: "Byte Standard Library Integration",
                     package: "swift-byte"
