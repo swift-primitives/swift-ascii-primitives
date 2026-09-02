@@ -5,7 +5,7 @@ extension ASCII {
 
 extension ASCII.Line {
 
-    public enum Ending: Sendable {
+    public enum Ending {
 
         case lf
 

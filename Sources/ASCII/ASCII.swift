@@ -7,7 +7,7 @@ extension ASCII {
 
 extension ASCII {
 
-    public enum Case: Sendable {
+    public enum Case {
 
         case upper
 

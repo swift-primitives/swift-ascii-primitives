@@ -1,6 +1,6 @@
 extension ASCII.Digits {
 
-    public enum Sign: Sendable, Equatable {
+    public enum Sign: Equatable {
 
         case none
 

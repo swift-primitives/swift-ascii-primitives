@@ -1,6 +1,6 @@
 extension ASCII.Digits {
 
-    public enum Count: Sendable, Equatable {
+    public enum Count: Equatable {
 
         case greedy
 

@@ -23,7 +23,7 @@ extension ASCII.Decimal {
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {
         if value == 0 {
-            buffer.append(Byte(ASCII.Character.Graphic.`0`))
+            buffer.append(Byte(bitPattern: ASCII.Character.Graphic.`0`))
             return
         }
 
@@ -40,7 +40,7 @@ extension ASCII.Decimal {
             }
 
             (0..<count).reversed().forEach { i in
-                unsafe buffer.append(Byte(scratch[i]))
+                unsafe buffer.append(Byte(bitPattern: scratch[i]))
             }
         }
     }
@@ -54,12 +54,12 @@ extension ASCII.Decimal {
         into buffer: inout Buffer
     ) where Buffer.Element == Byte {
         if value == 0 {
-            buffer.append(Byte(ASCII.Character.Graphic.`0`))
+            buffer.append(Byte(bitPattern: ASCII.Character.Graphic.`0`))
             return
         }
 
         if value < 0 {
-            buffer.append(Byte(ASCII.Character.Graphic.hyphen))
+            buffer.append(Byte(bitPattern: ASCII.Character.Graphic.hyphen))
         }
         var n = value.magnitude
 
@@ -75,7 +75,7 @@ extension ASCII.Decimal {
             }
 
             (0..<count).reversed().forEach { i in
-                unsafe buffer.append(Byte(scratch[i]))
+                unsafe buffer.append(Byte(bitPattern: scratch[i]))
             }
         }
     }
